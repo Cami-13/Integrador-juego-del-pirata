@@ -22,7 +22,33 @@ texture = ExtResource("1_xi31o")
 position = Vector2(-67.5, 0)
 shape = SubResource("RectangleShape2D_eciuy")
 
+[node name="Ground2" type="StaticBody2D" parent="."]
+position = Vector2(758, 245)
+collision_layer = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="Ground2"]
+position = Vector2(-68, 0)
+scale = Vector2(3.14063, 1)
+texture = ExtResource("1_xi31o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground2"]
+position = Vector2(-67.5, 0)
+shape = SubResource("RectangleShape2D_eciuy")
+
+[node name="Ground3" type="StaticBody2D" parent="."]
+position = Vector2(1208, 246)
+collision_layer = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="Ground3"]
+position = Vector2(-68, 0)
+scale = Vector2(3.14063, 1)
+texture = ExtResource("1_xi31o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground3"]
+position = Vector2(-67.5, 0)
+shape = SubResource("RectangleShape2D_eciuy")
+
 [node name="Player" parent="." instance=ExtResource("2_eciuy")]
 
 [node name="Enemy" parent="." instance=ExtResource("3_2lask")]
-position = Vector2(339, 92)
+position = Vector2(808, 103)
