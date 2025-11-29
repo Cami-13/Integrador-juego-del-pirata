@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://fpl4y6q27ms6"]
+[gd_scene load_steps=6 format=3 uid="uid://fpl4y6q27ms6"]
 
 [ext_resource type="Texture2D" uid="uid://2qnmbubohyvb" path="res://icon.svg" id="1_xi31o"]
 [ext_resource type="PackedScene" uid="uid://c2118cbx07yww" path="res://player.tscn" id="2_eciuy"]
 [ext_resource type="PackedScene" uid="uid://qpjmnhwk15h4" path="res://enemy.tscn" id="3_2lask"]
+[ext_resource type="PackedScene" uid="uid://bxvvinuxbo3di" path="res://enemy_shooter.tscn" id="4_m2gv8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eciuy"]
 size = Vector2(401, 128)
@@ -48,7 +49,23 @@ texture = ExtResource("1_xi31o")
 position = Vector2(-67.5, 0)
 shape = SubResource("RectangleShape2D_eciuy")
 
+[node name="Ground4" type="StaticBody2D" parent="."]
+position = Vector2(1678, 244)
+collision_layer = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="Ground4"]
+position = Vector2(-68, 0)
+scale = Vector2(3.14063, 1)
+texture = ExtResource("1_xi31o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground4"]
+position = Vector2(-67.5, 0)
+shape = SubResource("RectangleShape2D_eciuy")
+
 [node name="Player" parent="." instance=ExtResource("2_eciuy")]
 
 [node name="Enemy" parent="." instance=ExtResource("3_2lask")]
 position = Vector2(808, 103)
+
+[node name="enemyShooter" parent="." instance=ExtResource("4_m2gv8")]
+position = Vector2(1270, 150)

@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://bxvvinuxbo3di"]
+
+[ext_resource type="Texture2D" uid="uid://2qnmbubohyvb" path="res://icon.svg" id="1_2xpqq"]
+[ext_resource type="Script" uid="uid://4drsstdhdcdt" path="res://enemy_shooter.gd" id="1_3vy8j"]
+[ext_resource type="PackedScene" uid="uid://ur1uqfjpajq8" path="res://bullet.tscn" id="2_f6mbu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3vy8j"]
+size = Vector2(68, 62)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2xpqq"]
+radius = 198.0
+height = 396.0
+
+[node name="enemyShooter" type="CharacterBody2D"]
+visibility_layer = 4
+script = ExtResource("1_3vy8j")
+shoot_interval = 2.5
+bullet_scene = ExtResource("2_f6mbu")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.53125, 0.484375)
+texture = ExtResource("1_2xpqq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3vy8j")
+
+[node name="RangeArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
+shape = SubResource("CapsuleShape2D_2xpqq")
+
+[node name="ShootPoint" type="Marker2D" parent="."]
+
+[connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
+[connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
