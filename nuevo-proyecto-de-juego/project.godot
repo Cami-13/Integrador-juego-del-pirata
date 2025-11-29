@@ -42,6 +42,11 @@ jump={
 ]
 }
 
+[layer_names]
+
+2d_render/layer_3="Suelo"
+2d_physics/layer_3="Suelo"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

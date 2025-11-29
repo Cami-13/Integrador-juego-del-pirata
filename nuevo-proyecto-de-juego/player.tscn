@@ -8,6 +8,7 @@ size = Vector2(130, 130)
 
 [node name="Player" type="CharacterBody2D"]
 scale = Vector2(0.400001, 0.440001)
+collision_mask = 4
 script = ExtResource("1_onrkg")
 metadata/_edit_group_ = true
 
