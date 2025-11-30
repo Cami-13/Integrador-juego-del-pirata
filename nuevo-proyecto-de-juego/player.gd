@@ -7,7 +7,8 @@ var is_facing_right = true
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 var start_position: Vector2
-var life: int = 1   
+var life: int = 1  
+var has_key: bool = false 
 
 
 func _ready() -> void:
