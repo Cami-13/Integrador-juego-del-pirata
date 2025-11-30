@@ -8,7 +8,11 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 var start_position: Vector2
 var life: int = 1  
-var has_key: bool = false 
+
+
+var has_key: bool = false
+var gold: int = 0
+var inventory_sword: String = ""
 
 
 func _ready() -> void:
@@ -40,8 +44,19 @@ func flip() -> void:
 
 func lose_life() -> void:
 	life -= 1  
-   
 	global_position = start_position
 	velocity = Vector2.ZERO
+	life = 1  
 
-	life = 1
+
+
+func add_gold(amount: int):
+	gold += amount
+	print("Oro total:", gold)
+
+	get_tree().get_root().get_node("Nivel1").update_gold(gold)
+
+
+func add_sword(sword_name: String):
+	inventory_sword = sword_name
+	print("Has obtenido la espada:", sword_name)

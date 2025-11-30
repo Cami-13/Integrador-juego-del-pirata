@@ -1,15 +1,18 @@
-[gd_scene load_steps=7 format=3 uid="uid://fpl4y6q27ms6"]
+[gd_scene load_steps=9 format=3 uid="uid://fpl4y6q27ms6"]
 
+[ext_resource type="Script" uid="uid://dw22s0x37r443" path="res://nivel_1.gd" id="1_6epq6"]
 [ext_resource type="Texture2D" uid="uid://2qnmbubohyvb" path="res://icon.svg" id="1_xi31o"]
 [ext_resource type="PackedScene" uid="uid://c2118cbx07yww" path="res://player.tscn" id="2_eciuy"]
 [ext_resource type="PackedScene" uid="uid://qpjmnhwk15h4" path="res://enemy.tscn" id="3_2lask"]
 [ext_resource type="PackedScene" uid="uid://bxvvinuxbo3di" path="res://enemy_shooter.tscn" id="4_m2gv8"]
 [ext_resource type="PackedScene" uid="uid://dne40g1hf6b4f" path="res://key.tscn" id="5_320mp"]
+[ext_resource type="PackedScene" uid="uid://bwsbay58fn8iy" path="res://chest.tscn" id="6_kd3qp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eciuy"]
 size = Vector2(401, 128)
 
 [node name="Nivel1" type="Node2D"]
+script = ExtResource("1_6epq6")
 
 [node name="Ground" type="StaticBody2D" parent="."]
 position = Vector2(264, 247)
@@ -63,6 +66,19 @@ texture = ExtResource("1_xi31o")
 position = Vector2(-67.5, 0)
 shape = SubResource("RectangleShape2D_eciuy")
 
+[node name="Ground5" type="StaticBody2D" parent="."]
+position = Vector2(2136, 244)
+collision_layer = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="Ground5"]
+position = Vector2(-68, 0)
+scale = Vector2(3.14063, 1)
+texture = ExtResource("1_xi31o")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground5"]
+position = Vector2(-67.5, 0)
+shape = SubResource("RectangleShape2D_eciuy")
+
 [node name="Player" parent="." instance=ExtResource("2_eciuy")]
 
 [node name="Enemy" parent="." instance=ExtResource("3_2lask")]
@@ -73,3 +89,13 @@ position = Vector2(1270, 150)
 
 [node name="key" parent="." instance=ExtResource("5_320mp")]
 position = Vector2(1704, 150)
+
+[node name="Chest" parent="." instance=ExtResource("6_kd3qp")]
+position = Vector2(2177, 150)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GoldLabel" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Oro: 0"
