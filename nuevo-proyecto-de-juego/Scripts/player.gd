@@ -41,7 +41,26 @@ var knockback_timer: float = 0.0
 @export var default_knockback_vertical: float = 260.0
 @export var default_knockback_duration: float = 0.25
 
+# -----------------------------
+# ANIMACIONES
+# -----------------------------
+var animations_default := {
+	"Idle": "Idle",
+	"Run": "Run",
+	"Jump": "Jump",
+	"Fall": "Fall"
+}
 
+var animations_sword := {
+	"Idle": "Idle Sword",
+	"Run": "Run Sword",
+	"Jump": "Jump Sword",
+	"Fall": "Fall Sword"
+}
+
+# -------------------------------------------------
+# READY
+# -------------------------------------------------
 func _ready() -> void:
 	if spawn_point:
 		start_position = spawn_point.global_position
@@ -57,10 +76,11 @@ func _ready() -> void:
 
 	global_position = start_position
 
-
+# -------------------------------------------------
+# PHYSICS
+# -------------------------------------------------
 func _physics_process(delta: float) -> void:
-
-	# Knockback activo
+	# Knockback
 	if knockback_timer > 0.0:
 		velocity = knockback
 		knockback_timer -= delta
@@ -70,6 +90,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		_movement(delta)
 
+	# Gravedad
 	if not is_on_floor():
 		velocity.y += gravity * delta
 
@@ -80,25 +101,23 @@ func _physics_process(delta: float) -> void:
 
 	update_animations()
 
-	# ---------------------------
-	# Timer inicial (solo si NO tocó el cofre)
-	# ---------------------------
+	# Timer inicial (solo si NO tocó cofre)
 	if timer_initial_active and not chest_touched:
 		timer_initial_left -= delta
 		if timer_initial_left <= 0:
 			_on_timer_initial_timeout()
 		update_timer_initial_label()
 
-	# ---------------------------
 	# Timer post cofre
-	# ---------------------------
 	if timer_post_active:
 		timer_post_left -= delta
 		if timer_post_left <= 0:
 			_on_timer_post_timeout()
 		update_timer_post_label()
 
-
+# -------------------------------------------------
+# MOVIMIENTO
+# -------------------------------------------------
 func _movement(delta: float) -> void:
 	if Input.is_action_just_pressed("jump") and is_on_floor() and can_move:
 		velocity.y = -jump_speed
@@ -120,24 +139,32 @@ func flip() -> void:
 		scale.x = -scale.x
 		is_facing_right = !is_facing_right
 
-
+# -------------------------------------------------
+# ANIMACIONES
+# -------------------------------------------------
 func update_animations():
 	if is_dead:
 		return
 
+	var anim_set = animations_default
+	if chest_touched:
+		anim_set = animations_sword
+
 	if not is_on_floor():
 		if velocity.y < 0:
-			animated_sprite.play("Jump")
+			animated_sprite.play(anim_set["Jump"])
 		else:
-			animated_sprite.play("Fall")
+			animated_sprite.play(anim_set["Fall"])
 		return
 
 	if velocity.x != 0:
-		animated_sprite.play("Run")
+		animated_sprite.play(anim_set["Run"])
 	else:
-		animated_sprite.play("Idle")
+		animated_sprite.play(anim_set["Idle"])
 
-
+# -------------------------------------------------
+# KNOCKBACK
+# -------------------------------------------------
 func apply_knockback(direction: Vector2, horizontal_force: float = default_knockback_horizontal, vertical_force: float = default_knockback_vertical, duration: float = default_knockback_duration) -> void:
 	if direction == Vector2.ZERO:
 		return
@@ -151,7 +178,9 @@ func apply_knockback(direction: Vector2, horizontal_force: float = default_knock
 	knockback = Vector2(kb_x, kb_y)
 	knockback_timer = duration
 
-
+# -------------------------------------------------
+# MUERTE
+# -------------------------------------------------
 func play_dead_hit():
 	can_move = false
 	is_dead = true
@@ -173,10 +202,8 @@ func play_dead_ground():
 	await get_tree().create_timer(1.5).timeout  
 	respawn_player()
 
-
 # -------------------------------------------------
-# RESPAWN CORREGIDO
-# YA NO REACTIVA TIMER INICIAL SI TOCÓ EL COFRE
+# RESPAWN
 # -------------------------------------------------
 func respawn_player():
 	if chest_touched and chest_checkpoint != Vector2.ZERO:
@@ -196,15 +223,18 @@ func respawn_player():
 	else:
 		timer_initial_active = false
 		timer_initial_label.visible = false
+		# Bonus timer se reinicia cada vez que mueres después de tocar el cofre
+		start_post_chest_timer()
 
-	# Timer post cofre → reinicia cada vez que mueres después de tocar el cofre
+	# Animación correcta al respawnear
 	if chest_touched:
-		start_post_chest_timer()  # esto reinicia el bonus timer
+		animated_sprite.play(animations_sword["Idle"])
+	else:
+		animated_sprite.play(animations_default["Idle"])
 
-	animated_sprite.play("Idle")
-
-
-
+# -------------------------------------------------
+# PERDER VIDA
+# -------------------------------------------------
 func lose_life(damage_from_position = null) -> void:
 	if is_dead:
 		return
@@ -222,7 +252,6 @@ func lose_life(damage_from_position = null) -> void:
 
 	play_dead_hit()
 
-
 func lose_life_from_direction(dir_to_damage: Vector2):
 	if is_dead:
 		return
@@ -235,11 +264,12 @@ func lose_life_from_direction(dir_to_damage: Vector2):
 	apply_knockback(dir_to_damage)
 	play_dead_hit()
 
-
 func body_pos_to_player_direction(damage_from_position: Vector2) -> Vector2:
 	return (global_position - damage_from_position) * -1
 
-
+# -------------------------------------------------
+# ORO / ESPADA
+# -------------------------------------------------
 func add_gold(amount: int):
 	gold += amount
 	update_gold_label()
@@ -252,20 +282,22 @@ func update_gold_label():
 	if gold_label:
 		gold_label.text = "Oro: " + str(gold)
 
-
+# -------------------------------------------------
+# CHECKPOINT / COFRE
+# -------------------------------------------------
 func set_checkpoint(new_position: Vector2) -> void:
 	chest_checkpoint = new_position
 
-
-# -------------------------------------------------
-# CUANDO TOCA EL COFRE → SE DESACTIVA PARA SIEMPRE EL TIMER INICIAL
-# -------------------------------------------------
 func on_chest_opened():
 	chest_touched = true
 	timer_initial_active = false
 	timer_initial_label.visible = false
 
+	start_post_chest_timer()  # bonus timer se activa al tocar el cofre
 
+# -------------------------------------------------
+# TIMERS
+# -------------------------------------------------
 func update_timer_initial_label():
 	if not timer_initial_active:
 		timer_initial_label.visible = false
@@ -273,7 +305,6 @@ func update_timer_initial_label():
 
 	timer_initial_label.visible = true
 	timer_initial_label.text = "Tiempo: " + str(ceil(timer_initial_left)) + "s"
-
 
 func _on_timer_initial_timeout():
 	if not timer_initial_active:
@@ -285,16 +316,13 @@ func _on_timer_initial_timeout():
 	timer_initial_left = timer_initial_time
 	update_timer_initial_label()
 
-
 func start_post_chest_timer():
 	timer_post_left = timer_post_time
 	timer_post_active = true
 	timer_post_label.visible = true
 
-
 func update_timer_post_label():
 	timer_post_label.text = "Bonus: " + str(ceil(timer_post_left)) + "s"
-
 
 func _on_timer_post_timeout() -> void:
 	if chest_checkpoint != Vector2.ZERO:
