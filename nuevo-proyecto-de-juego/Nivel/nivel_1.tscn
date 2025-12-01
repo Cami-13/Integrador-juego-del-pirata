@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://fpl4y6q27ms6"]
+[gd_scene load_steps=10 format=3 uid="uid://fpl4y6q27ms6"]
 
 [ext_resource type="Script" uid="uid://dw22s0x37r443" path="res://Scripts/nivel_1.gd" id="1_bre3x"]
 [ext_resource type="Texture2D" uid="uid://2qnmbubohyvb" path="res://Sprite/icon.svg" id="2_pmdci"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bxvvinuxbo3di" path="res://Enemigos/enemy_shooter.tscn" id="5_2xhbh"]
 [ext_resource type="PackedScene" uid="uid://dne40g1hf6b4f" path="res://Objetos/key.tscn" id="6_ffpk3"]
 [ext_resource type="PackedScene" uid="uid://bwsbay58fn8iy" path="res://Objetos/chest.tscn" id="7_gm3rt"]
+[ext_resource type="PackedScene" uid="uid://cof1quxf1qibg" path="res://pincho.tscn" id="8_pmdci"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eciuy"]
 size = Vector2(401, 128)
@@ -111,3 +112,9 @@ offset_left = 129.0
 offset_top = 1.0
 offset_right = 169.0
 offset_bottom = 24.0
+
+[node name="Pincho" parent="." instance=ExtResource("8_pmdci")]
+position = Vector2(1607, 168)
+
+[node name="Pincho2" parent="." instance=ExtResource("8_pmdci")]
+position = Vector2(2002, 168)

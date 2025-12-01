@@ -15,13 +15,13 @@ var inventory_sword: String = ""
 var frontal_immune: bool = false
 
 # --- Timer inicial (20s) ---
-@export var timer_initial_time: float = 20.0
+@export var timer_initial_time: float = 25.0
 var timer_initial_left: float = timer_initial_time
 var timer_initial_active: bool = true
 @onready var timer_initial_label: Label = $"../CanvasLayer/TimerInitialLabel"
 
 # --- Timer post-cofre (10s) ---
-@export var timer_post_time: float = 10.0
+@export var timer_post_time: float = 15.0
 var timer_post_left: float = timer_post_time
 var timer_post_active: bool = false
 @onready var timer_post_label: Label = $"../CanvasLayer/TimerPostLabel"
