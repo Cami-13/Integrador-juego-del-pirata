@@ -1,8 +1,5 @@
 extends CharacterBody2D
 
-@onready var player_node: CharacterBody2D = get_parent(). get_node("player")
-
-
 var gravity = 3.0
 var speed = 100.0
 var moving_left = true
@@ -29,9 +26,6 @@ func turn():
 		scale.x *= -1
 
 func _on_area_2d_body_entered(body):
-	if body.is_in_group("Player") and body.has_method("lose_life"):
-		var dir = (body.global_position - global_position).normalized()
-		body.lose_life_from_direction(dir)
-	if body == player_node:
+	if body.is_in_group("Player") and body.has_method("lose_life_from_direction"):
 		var dir = (body.global_position - global_position).normalized()
 		body.lose_life_from_direction(dir)

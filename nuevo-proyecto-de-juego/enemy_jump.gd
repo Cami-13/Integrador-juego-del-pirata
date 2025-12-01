@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @export var gravity: float = 500.0
 @export var jump_speed: float = 300.0
-@export var jump_interval: float = 2.0 
+@export var jump_interval: float = 2.0
 
 var jump_timer: float = 0.0
 

@@ -24,12 +24,21 @@ func open_chest(player):
 	print("¡Cofre abierto!")
 	player.add_gold(gold_amount)
 	player.add_sword(sword_name)
+
+	# ✔ CAMBIAR EL CHECKPOINT AL COFRE
 	player.set_checkpoint(global_position + Vector2(0, -16))
 
+	# ✔ AVISA AL PLAYER QUE EL COFRE YA ES EL NUEVO SPAWN
+	player.chest_touched = true
 
+	# -----------------------------------------
+	# ✔ DESACTIVAR TIMER INICIAL *PARA SIEMPRE*
+	# -----------------------------------------
 	player.timer_initial_active = false
 	if player.timer_initial_label:
 		player.timer_initial_label.visible = false
+	player.timer_initial_left = player.timer_initial_time  # opcional: limpiar valor
+	# El timer inicial ya no vuelve más
 
-
+	# ✔ ACTIVAR TIMER BONUS DESDE EL COFRE
 	player.start_post_chest_timer()

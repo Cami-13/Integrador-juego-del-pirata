@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 @export var move_speed: float = 200.0
 @export var jump_speed: float = 400.0
+@onready var spawn_point: Node2D = $"../SpawnPoint"
 
 var is_facing_right = true
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -30,22 +31,96 @@ var timer_post_active: bool = false
 @onready var gold_label: Label = $"../CanvasLayer/GoldLabel"
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite
 
-var chest_checkpoint: Vector2
+var chest_checkpoint: Vector2 = Vector2.ZERO
 var chest_touched: bool = false
 
-# Knockback state
 var knockback: Vector2 = Vector2.ZERO
 var knockback_timer: float = 0.0
 
-# Defaults para knockback (modificá si querés)
 @export var default_knockback_horizontal: float = 380.0
 @export var default_knockback_vertical: float = 260.0
 @export var default_knockback_duration: float = 0.25
 
 
-# --------------------------
-# ANIMACIONES
-# --------------------------
+func _ready() -> void:
+	if spawn_point:
+		start_position = spawn_point.global_position
+	else:
+		start_position = global_position
+
+	timer_initial_left = timer_initial_time
+	timer_initial_active = true
+	call_deferred("update_timer_initial_label")
+
+	timer_post_label.visible = false  
+	update_gold_label()
+
+	global_position = start_position
+
+
+func _physics_process(delta: float) -> void:
+
+	# Knockback activo
+	if knockback_timer > 0.0:
+		velocity = knockback
+		knockback_timer -= delta
+		if knockback_timer <= 0.0:
+			knockback = Vector2.ZERO
+			can_move = true
+	else:
+		_movement(delta)
+
+	if not is_on_floor():
+		velocity.y += gravity * delta
+
+	move_and_slide()
+
+	if is_dead:
+		return
+
+	update_animations()
+
+	# ---------------------------
+	# Timer inicial (solo si NO tocó el cofre)
+	# ---------------------------
+	if timer_initial_active and not chest_touched:
+		timer_initial_left -= delta
+		if timer_initial_left <= 0:
+			_on_timer_initial_timeout()
+		update_timer_initial_label()
+
+	# ---------------------------
+	# Timer post cofre
+	# ---------------------------
+	if timer_post_active:
+		timer_post_left -= delta
+		if timer_post_left <= 0:
+			_on_timer_post_timeout()
+		update_timer_post_label()
+
+
+func _movement(delta: float) -> void:
+	if Input.is_action_just_pressed("jump") and is_on_floor() and can_move:
+		velocity.y = -jump_speed
+
+	if can_move:
+		move_x()
+
+	flip()
+
+func move_x() -> void:
+	if not can_move:
+		return
+
+	var input_axis = Input.get_axis("move_left", "move_right")
+	velocity.x = input_axis * move_speed
+
+func flip() -> void:
+	if (is_facing_right and velocity.x < 0) or (not is_facing_right and velocity.x > 0):
+		scale.x = -scale.x
+		is_facing_right = !is_facing_right
+
+
 func update_animations():
 	if is_dead:
 		return
@@ -63,154 +138,73 @@ func update_animations():
 		animated_sprite.play("Idle")
 
 
-# --------------------------
-# READY
-# --------------------------
-func _ready() -> void:
-	start_position = global_position
-	timer_initial_left = timer_initial_time
-	timer_initial_active = true
-	call_deferred("update_timer_initial_label")
-	timer_post_label.visible = false  
-	update_gold_label()
-
-
-# --------------------------
-# PHYSICS
-# --------------------------
-func _physics_process(delta: float) -> void:
-	# Si estamos en knockback, aplicamos ese vector y contamos tiempo
-	if knockback_timer > 0.0:
-		# knockback mantiene su valor durante knockback_timer
-		velocity.x = knockback.x
-		velocity.y = knockback.y
-		knockback_timer -= delta
-		if knockback_timer <= 0.0:
-			# fin del knockback: limpiamos y permitimos movimiento
-			knockback = Vector2.ZERO
-			can_move = true
-	else:
-		# flujo normal de movimiento
-		_movement(delta)
-
-	# aplicar gravedad si corresponde (si no se está aplicando ya en _movement)
-	if not is_on_floor():
-		# si el knockback ya puso velocity.y, sumamos gravedad normalmente
-		velocity.y += gravity * delta
-
-	# finalmente mover el cuerpo
-	move_and_slide()
-
-	# si está muerto no procesamos inputs ni timers
-	if is_dead:
-		return
-
-	update_animations()
-
-	# TIMERS
-	if timer_initial_active:
-		timer_initial_left -= delta
-		if timer_initial_left <= 0:
-			_on_timer_initial_timeout()
-		update_timer_initial_label()
-
-	if timer_post_active:
-		timer_post_left -= delta
-		if timer_post_left <= 0:
-			_on_timer_post_timeout()
-		update_timer_post_label()
-
-
-# --------------------------
-# MOVIMIENTO (input + salto)
-# --------------------------
-func _movement(delta: float) -> void:
-	# salto
-	if Input.is_action_just_pressed("jump") and is_on_floor() and can_move:
-		velocity.y = -jump_speed
-
-	# movimiento horizontal (solo si can_move)
-	if can_move:
-		move_x()
-
-	# flip aparte para reflejar sprite
-	flip()
-
-
-func move_x() -> void:
-	# si no puede moverse, no sobreescribimos velocity.x
-	if not can_move:
-		return
-
-	var input_axis = Input.get_axis("move_left", "move_right")
-	velocity.x = input_axis * move_speed
-
-
-func flip() -> void:
-	if (is_facing_right and velocity.x < 0) or (not is_facing_right and velocity.x > 0):
-		scale.x = -scale.x
-		is_facing_right = !is_facing_right
-
-
-# --------------------------
-# KNOCKBACK (EMPUJÓN REAL) - firma flexible
-# direction: vector que apunta AWAY del enemigo (es decir, debe ser (player - enemy).normalized())
-# horizontal_force, vertical_force: magnitudes
-# duration: tiempo que dura el knockback (segundos)
-# --------------------------
 func apply_knockback(direction: Vector2, horizontal_force: float = default_knockback_horizontal, vertical_force: float = default_knockback_vertical, duration: float = default_knockback_duration) -> void:
 	if direction == Vector2.ZERO:
 		return
 
-	# bloquear movimiento de entrada
 	can_move = false
 
-	var dir_norm = direction.normalized()
-	# knockback horizontal según la dirección x del vector
-	var kb_x = dir_norm.x * horizontal_force
-	# vertical será hacia arriba (negativo)
+	var dir = direction.normalized()
+	var kb_x = dir.x * horizontal_force
 	var kb_y = -abs(vertical_force)
 
 	knockback = Vector2(kb_x, kb_y)
 	knockback_timer = duration
 
 
-# --------------------------
-# MUERTE
-# --------------------------
 func play_dead_hit():
 	can_move = false
 	is_dead = true
 	velocity = Vector2.ZERO
+
 	animated_sprite.play("Dead Hit")
 	await animated_sprite.animation_finished
-	respawn_player()
+
+	play_dead_ground()
 
 func play_dead_ground():
 	can_move = false
 	is_dead = true
 	velocity = Vector2.ZERO
+
 	animated_sprite.play("Dead Ground")
 	await animated_sprite.animation_finished
+
+	await get_tree().create_timer(1.5).timeout  
 	respawn_player()
 
 
-# --------------------------
-# RESPAWN
-# --------------------------
+# -------------------------------------------------
+# RESPAWN CORREGIDO
+# YA NO REACTIVA TIMER INICIAL SI TOCÓ EL COFRE
+# -------------------------------------------------
 func respawn_player():
-	if chest_checkpoint != Vector2.ZERO:
+	if chest_touched and chest_checkpoint != Vector2.ZERO:
 		global_position = chest_checkpoint
 	else:
 		global_position = start_position
 
 	is_dead = false
 	can_move = true
+	velocity = Vector2.ZERO
+
+	# Timer inicial → solo si NO tocó el cofre
+	if not chest_touched:
+		timer_initial_left = timer_initial_time
+		timer_initial_active = true
+		update_timer_initial_label()
+	else:
+		timer_initial_active = false
+		timer_initial_label.visible = false
+
+	# Timer post cofre → reinicia cada vez que mueres después de tocar el cofre
+	if chest_touched:
+		start_post_chest_timer()  # esto reinicia el bonus timer
+
+	animated_sprite.play("Idle")
 
 
-# --------------------------
-# PERDER VIDA
-# --------------------------
+
 func lose_life(damage_from_position = null) -> void:
 	if is_dead:
 		return
@@ -223,21 +217,10 @@ func lose_life(damage_from_position = null) -> void:
 	life -= 1
 
 	if damage_from_position != null:
-		# calculamos dirección desde ENEMIGO hacia PLAYER
-		var dir = (global_position - damage_from_position).normalized()
-		# Nota: si tus enemigos llaman body.lose_life(global_position),
-		# entonces damage_from_position = enemy.global_position y dir será (player - enemy) NEGADO,
-		# por eso preferimos que el enemigo envíe: (player.global_position - enemy.global_position).normalized()
-		# Para robustez, aquí invertimos si queda en cero o mal orientado:
-		# Usamos dirección que apunta AWAY del enemigo:
-		dir = (global_position - damage_from_position).normalized()
-		# Aplicar knockback con valores por defecto
+		var dir = (body_pos_to_player_direction(damage_from_position)).normalized()
 		apply_knockback(dir)
 
-	if life <= 0:
-		play_dead_ground()
-	else:
-		play_dead_hit()
+	play_dead_hit()
 
 
 func lose_life_from_direction(dir_to_damage: Vector2):
@@ -249,20 +232,14 @@ func lose_life_from_direction(dir_to_damage: Vector2):
 			return
 
 	life -= 1
-
-	# Aquí asumimos que dir_to_damage es la dirección CORRECTA del ENEMIGO->PLAYER
-	# (por ejemplo: enemy envía (player.global_position - enemy.global_position).normalized())
 	apply_knockback(dir_to_damage)
-
-	if life <= 0:
-		play_dead_ground()
-	else:
-		play_dead_hit()
+	play_dead_hit()
 
 
-# --------------------------
-# ORO / ESPADA
-# --------------------------
+func body_pos_to_player_direction(damage_from_position: Vector2) -> Vector2:
+	return (global_position - damage_from_position) * -1
+
+
 func add_gold(amount: int):
 	gold += amount
 	update_gold_label()
@@ -276,21 +253,19 @@ func update_gold_label():
 		gold_label.text = "Oro: " + str(gold)
 
 
-# --------------------------
-# CHECKPOINT / COFRE
-# --------------------------
 func set_checkpoint(new_position: Vector2) -> void:
 	chest_checkpoint = new_position
 
+
+# -------------------------------------------------
+# CUANDO TOCA EL COFRE → SE DESACTIVA PARA SIEMPRE EL TIMER INICIAL
+# -------------------------------------------------
 func on_chest_opened():
 	chest_touched = true
 	timer_initial_active = false
 	timer_initial_label.visible = false
 
 
-# --------------------------
-# TIMERS
-# --------------------------
 func update_timer_initial_label():
 	if not timer_initial_active:
 		timer_initial_label.visible = false
@@ -299,31 +274,32 @@ func update_timer_initial_label():
 	timer_initial_label.visible = true
 	timer_initial_label.text = "Tiempo: " + str(ceil(timer_initial_left)) + "s"
 
+
 func _on_timer_initial_timeout():
 	if not timer_initial_active:
 		return
 
-	if chest_checkpoint != Vector2.ZERO:
-		global_position = chest_checkpoint
-	else:
-		global_position = start_position
-
+	global_position = start_position
 	velocity = Vector2.ZERO
+
 	timer_initial_left = timer_initial_time
 	update_timer_initial_label()
+
 
 func start_post_chest_timer():
 	timer_post_left = timer_post_time
 	timer_post_active = true
 	timer_post_label.visible = true
 
+
 func update_timer_post_label():
 	timer_post_label.text = "Bonus: " + str(ceil(timer_post_left)) + "s"
 
+
 func _on_timer_post_timeout() -> void:
-	# respawnea en checkpoint cuando se acabe el post-timer
 	if chest_checkpoint != Vector2.ZERO:
 		global_position = chest_checkpoint
+
 	velocity = Vector2.ZERO
 	timer_post_left = timer_post_time
 	update_timer_post_label()

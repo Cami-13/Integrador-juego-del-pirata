@@ -40,7 +40,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("5_sm0op")
 }],
-"loop": true,
+"loop": false,
 "name": &"Dead Ground",
 "speed": 5.0
 }, {
@@ -57,7 +57,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("9_bbimk")
 }],
-"loop": true,
+"loop": false,
 "name": &"Dead Hit",
 "speed": 5.0
 }, {
@@ -138,8 +138,7 @@ metadata/_edit_group_ = true
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_bbimk")
-animation = &"Jump"
-frame_progress = 0.19199
+animation = &"Dead Hit"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.125, -2)
