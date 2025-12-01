@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://fpl4y6q27ms6"]
+[gd_scene load_steps=11 format=3 uid="uid://fpl4y6q27ms6"]
 
 [ext_resource type="Script" uid="uid://dw22s0x37r443" path="res://Scripts/nivel_1.gd" id="1_bre3x"]
 [ext_resource type="Texture2D" uid="uid://2qnmbubohyvb" path="res://Sprite/icon.svg" id="2_pmdci"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dne40g1hf6b4f" path="res://Objetos/key.tscn" id="6_ffpk3"]
 [ext_resource type="PackedScene" uid="uid://bwsbay58fn8iy" path="res://Objetos/chest.tscn" id="7_gm3rt"]
 [ext_resource type="PackedScene" uid="uid://cof1quxf1qibg" path="res://pincho.tscn" id="8_pmdci"]
+[ext_resource type="PackedScene" uid="uid://8kyd54tslssk" path="res://enemy_jump.tscn" id="9_j8tee"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eciuy"]
 size = Vector2(401, 128)
@@ -80,6 +81,19 @@ texture = ExtResource("2_pmdci")
 position = Vector2(-67.5, 0)
 shape = SubResource("RectangleShape2D_eciuy")
 
+[node name="Ground6" type="StaticBody2D" parent="."]
+position = Vector2(2581, 244)
+collision_layer = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="Ground6"]
+position = Vector2(-68, 0)
+scale = Vector2(3.14063, 1)
+texture = ExtResource("2_pmdci")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground6"]
+position = Vector2(-67.5, 0)
+shape = SubResource("RectangleShape2D_eciuy")
+
 [node name="Player" parent="." instance=ExtResource("3_j8tee")]
 
 [node name="Enemy" parent="." instance=ExtResource("4_yichk")]
@@ -92,7 +106,7 @@ position = Vector2(1270, 150)
 position = Vector2(1704, 150)
 
 [node name="Chest" parent="." instance=ExtResource("7_gm3rt")]
-position = Vector2(2177, 150)
+position = Vector2(2649, 149)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -117,4 +131,7 @@ offset_bottom = 24.0
 position = Vector2(1607, 168)
 
 [node name="Pincho2" parent="." instance=ExtResource("8_pmdci")]
-position = Vector2(2002, 168)
+position = Vector2(2448, 164)
+
+[node name="enemy_jump" parent="." instance=ExtResource("9_j8tee")]
+position = Vector2(2074, 147)

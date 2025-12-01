@@ -26,10 +26,10 @@ func open_chest(player):
 	player.add_sword(sword_name)
 	player.set_checkpoint(global_position + Vector2(0, -16))
 
-	# Detener timer inicial
+
 	player.timer_initial_active = false
 	if player.timer_initial_label:
 		player.timer_initial_label.visible = false
 
-	# Iniciar timer post-cofre de 10 segundos
+
 	player.start_post_chest_timer()

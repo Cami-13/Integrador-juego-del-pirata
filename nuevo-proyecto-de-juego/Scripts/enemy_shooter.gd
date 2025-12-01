@@ -30,10 +30,10 @@ func shoot():
 	var bullet = bullet_scene.instantiate()
 	get_parent().add_child(bullet)
 
-	# posición inicial
+
 	bullet.global_position = $ShootPoint.global_position
 
-	# dirección hacia el player
+
 	var dir = (player_ref.global_position - global_position).normalized()
 	bullet.direction = dir
 	bullet.speed = bullet_speed
