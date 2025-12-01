@@ -21,6 +21,6 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func _on_area_2d_body_entered(body):
-	if body.name == "Player" and body.has_method("lose_life_from_direction"):
-		var dir_to_player = (global_position - body.global_position).normalized()
-		body.lose_life_from_direction(dir_to_player)
+	if body.is_in_group("Player") and body.has_method("lose_life_from_direction"):
+		var dir = (body.global_position - global_position).normalized()
+		body.lose_life_from_direction(dir)
