@@ -99,3 +99,15 @@ position = Vector2(2177, 150)
 offset_right = 40.0
 offset_bottom = 23.0
 text = "Oro: 0"
+
+[node name="TimerInitialLabel" type="Label" parent="CanvasLayer"]
+offset_left = 120.0
+offset_top = 2.0
+offset_right = 160.0
+offset_bottom = 25.0
+
+[node name="TimerPostLabel" type="Label" parent="CanvasLayer"]
+offset_left = 129.0
+offset_top = 1.0
+offset_right = 169.0
+offset_bottom = 24.0
