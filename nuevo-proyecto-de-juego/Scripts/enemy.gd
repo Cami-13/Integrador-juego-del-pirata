@@ -27,4 +27,5 @@ func turn():
 
 func _on_area_2d_body_entered(body):
 	if body.name == "Player" and body.has_method("lose_life"):
-		body.lose_life()
+		# Pasamos la posición del enemigo al jugador
+		body.lose_life(global_position)
