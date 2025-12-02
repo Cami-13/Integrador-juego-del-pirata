@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends CharacterBody2D 
 
 @export var move_speed: float = 100.0
 @export var jump_speed: float = 300.0
@@ -23,7 +23,7 @@ var timer_initial_left: float = timer_initial_time
 var timer_initial_active: bool = true
 @onready var timer_initial_label: Label = $"../CanvasLayer/TimerInitialLabel"
 
-@export var timer_post_time: float = 20.0
+@export var timer_post_time: float = 35.0
 var timer_post_left: float = timer_post_time
 var timer_post_active: bool = false
 @onready var timer_post_label: Label = $"../CanvasLayer/TimerPostLabel"
@@ -57,6 +57,13 @@ var animations_sword := {
 	"Jump": "Jump Sword",
 	"Fall": "Fall Sword"
 }
+
+# -----------------------------
+# ATAQUE ESPADA
+# -----------------------------
+var is_attacking: bool = false
+@export var attack_cooldown: float = 0.3
+var attack_timer: float = 0.0
 
 # -------------------------------------------------
 # READY
@@ -115,6 +122,17 @@ func _physics_process(delta: float) -> void:
 			_on_timer_post_timeout()
 		update_timer_post_label()
 
+	# Ataque con espada
+	if chest_touched and Input.is_action_just_pressed("attack") and not is_attacking:
+		start_attack()
+
+	# Actualizar attack_timer por si se usa cooldown en lugar de animation_finished
+	if is_attacking:
+		attack_timer -= delta
+		if attack_timer <= 0:
+			is_attacking = false
+			can_move = true
+
 # -------------------------------------------------
 # MOVIMIENTO
 # -------------------------------------------------
@@ -143,8 +161,8 @@ func flip() -> void:
 # ANIMACIONES
 # -------------------------------------------------
 func update_animations():
-	if is_dead:
-		return
+	if is_dead or is_attacking:
+		return  # No cambiar animación si está muerto o atacando
 
 	var anim_set = animations_default
 	if chest_touched:
@@ -161,6 +179,22 @@ func update_animations():
 		animated_sprite.play(anim_set["Run"])
 	else:
 		animated_sprite.play(anim_set["Idle"])
+
+# -------------------------------------------------
+# ATAQUE ESPADA FUNCIONES
+# -------------------------------------------------
+func start_attack():
+	is_attacking = true
+	can_move = false
+	animated_sprite.play("Attack")
+	attack_timer = attack_cooldown
+	$AnimatedSprite.connect("animation_finished", Callable(self, "_on_attack_finished"))
+
+func _on_attack_finished():
+	if animated_sprite.animation == "Attack":
+		$AnimatedSprite.disconnect("animation_finished", Callable(self, "_on_attack_finished"))
+		is_attacking = false
+		can_move = true
 
 # -------------------------------------------------
 # KNOCKBACK
@@ -215,7 +249,6 @@ func respawn_player():
 	can_move = true
 	velocity = Vector2.ZERO
 
-	# Timer inicial → solo si NO tocó el cofre
 	if not chest_touched:
 		timer_initial_left = timer_initial_time
 		timer_initial_active = true
@@ -223,10 +256,8 @@ func respawn_player():
 	else:
 		timer_initial_active = false
 		timer_initial_label.visible = false
-		# Bonus timer se reinicia cada vez que mueres después de tocar el cofre
 		start_post_chest_timer()
 
-	# Animación correcta al respawnear
 	if chest_touched:
 		animated_sprite.play(animations_sword["Idle"])
 	else:
@@ -292,8 +323,7 @@ func on_chest_opened():
 	chest_touched = true
 	timer_initial_active = false
 	timer_initial_label.visible = false
-
-	start_post_chest_timer()  # bonus timer se activa al tocar el cofre
+	start_post_chest_timer()
 
 # -------------------------------------------------
 # TIMERS

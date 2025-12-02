@@ -1,12 +1,15 @@
-[gd_scene load_steps=42 format=3 uid="uid://c2118cbx07yww"]
+[gd_scene load_steps=45 format=3 uid="uid://c2118cbx07yww"]
 
 [ext_resource type="Script" uid="uid://cuwceue62o6lq" path="res://Scripts/player.gd" id="1_onrkg"]
+[ext_resource type="Texture2D" uid="uid://cwxe73i7kyljc" path="res://Assets/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/16-Attack 2/Attack 2 01.png" id="2_6pogt"]
 [ext_resource type="Texture2D" uid="uid://cqywqrw1d5se" path="res://Assets/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/08-Dead Ground/Dead Ground 01.png" id="2_8mwp6"]
 [ext_resource type="Texture2D" uid="uid://urqs0sv7m2bs" path="res://Assets/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/04-Fall/Fall 01.png" id="2_lfmf2"]
+[ext_resource type="Texture2D" uid="uid://c2wgld3kn6r8j" path="res://Assets/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/16-Attack 2/Attack 2 02.png" id="3_ie76m"]
 [ext_resource type="Texture2D" uid="uid://bx4geblw02286" path="res://Assets/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/01-Idle/Idle 01.png" id="3_pisgm"]
 [ext_resource type="Texture2D" uid="uid://dm8vvqj8tww8l" path="res://Assets/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/08-Dead Ground/Dead Ground 02.png" id="3_qemgg"]
 [ext_resource type="Texture2D" uid="uid://dqg60pb1xeadp" path="res://Assets/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/08-Dead Ground/Dead Ground 03.png" id="4_8viyr"]
 [ext_resource type="Texture2D" uid="uid://bcdoaa8ftg77l" path="res://Assets/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/01-Idle/Idle 02.png" id="4_b1ygp"]
+[ext_resource type="Texture2D" uid="uid://cimfl5mpf4k72" path="res://Assets/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/16-Attack 2/Attack 2 03.png" id="4_dy65m"]
 [ext_resource type="Texture2D" uid="uid://g8mkl102at4k" path="res://Assets/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/01-Idle/Idle 03.png" id="5_o28un"]
 [ext_resource type="Texture2D" uid="uid://4s2wao872mvu" path="res://Assets/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/08-Dead Ground/Dead Ground 04.png" id="5_sm0op"]
 [ext_resource type="Texture2D" uid="uid://cm0kqfwcuy63j" path="res://Assets/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose without Sword/07-Dead Hit/Dead Hit 01.png" id="6_76lrf"]
@@ -42,6 +45,20 @@
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_bbimk"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_6pogt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ie76m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_dy65m")
+}],
+"loop": true,
+"name": &"Attack",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("2_8mwp6")
@@ -217,7 +234,8 @@ metadata/_edit_group_ = true
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_bbimk")
-animation = &"Run Sword"
+animation = &"Attack"
+frame_progress = 0.0432096
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -4.5)
