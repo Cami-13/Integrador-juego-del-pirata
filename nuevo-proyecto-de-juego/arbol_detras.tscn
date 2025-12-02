@@ -1,0 +1,42 @@
+[gd_scene load_steps=8 format=3 uid="uid://yh72klkn567p"]
+
+[ext_resource type="Script" uid="uid://cj28rfy4sbxet" path="res://arbol.gd" id="1_k2uwl"]
+[ext_resource type="Texture2D" uid="uid://1o86fject41c" path="res://Assets/Sprites/Back Palm Trees/Back Palm Tree Regular 01.png" id="2_7ulyg"]
+[ext_resource type="Texture2D" uid="uid://b0tcon6c5tik" path="res://Assets/Sprites/Back Palm Trees/Back Palm Tree Regular 02.png" id="3_mls2c"]
+[ext_resource type="Texture2D" uid="uid://b37it7f4hhny3" path="res://Assets/Sprites/Back Palm Trees/Back Palm Tree Regular 03.png" id="4_8b0ye"]
+[ext_resource type="Texture2D" uid="uid://c4fdwjbjv4vg7" path="res://Assets/Sprites/Back Palm Trees/Back Palm Tree Regular 04.png" id="5_abgec"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4wi78"]
+size = Vector2(36, 23)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4fgxo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_7ulyg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_mls2c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_8b0ye")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_abgec")
+}],
+"loop": true,
+"name": &"Idle1",
+"speed": 12.0
+}]
+
+[node name="ArbolDetras" type="CharacterBody2D"]
+script = ExtResource("1_k2uwl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4.5)
+shape = SubResource("RectangleShape2D_4wi78")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_4fgxo")
+animation = &"Idle1"
+frame_progress = 0.0208414

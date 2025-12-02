@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://cqlrqm5how0v0"]
+
+[ext_resource type="Script" uid="uid://dovyv227pggnk" path="res://pincho.gd" id="1_h40lj"]
+[ext_resource type="Texture2D" uid="uid://b3dp2eb5y0wxu" path="res://Assets/Sprites/Objects/Spikes/Spikes.png" id="2_4jk11"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oppfc"]
+size = Vector2(32, 16)
+
+[node name="PinchoGrande" type="Area2D"]
+scale = Vector2(4, 4)
+script = ExtResource("1_h40lj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_4jk11")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_oppfc")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

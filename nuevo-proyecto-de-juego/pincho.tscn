@@ -1,20 +1,20 @@
 [gd_scene load_steps=4 format=3 uid="uid://cof1quxf1qibg"]
 
 [ext_resource type="Script" uid="uid://dovyv227pggnk" path="res://pincho.gd" id="1_m0gix"]
-[ext_resource type="Texture2D" uid="uid://2qnmbubohyvb" path="res://Sprite/icon.svg" id="2_60wof"]
+[ext_resource type="Texture2D" uid="uid://b3dp2eb5y0wxu" path="res://Assets/Sprites/Objects/Spikes/Spikes.png" id="2_m0gix"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oppfc"]
-size = Vector2(64, 26)
+size = Vector2(32, 16)
 
 [node name="Pincho" type="Area2D"]
+scale = Vector2(0.5, 0.5)
 script = ExtResource("1_m0gix")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0, 1, 1, 1)
-scale = Vector2(0.494141, 0.203125)
-texture = ExtResource("2_60wof")
+texture = ExtResource("2_m0gix")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8)
 shape = SubResource("RectangleShape2D_oppfc")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

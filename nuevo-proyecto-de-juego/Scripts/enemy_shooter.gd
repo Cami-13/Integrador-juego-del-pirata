@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 @export var shoot_interval := 1.5    
 @export var bullet_scene: PackedScene 
-@export var bullet_speed := 300
+@export var bullet_speed := 200
 
 var player_in_range = false
 var player_ref = null

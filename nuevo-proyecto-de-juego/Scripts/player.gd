@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-@export var move_speed: float = 200.0
-@export var jump_speed: float = 400.0
+@export var move_speed: float = 100.0
+@export var jump_speed: float = 300.0
 @onready var spawn_point: Node2D = $"../SpawnPoint"
 
 var is_facing_right = true
@@ -18,7 +18,7 @@ var frontal_immune: bool = false
 var is_dead: bool = false
 var can_move: bool = true
 
-@export var timer_initial_time: float = 35.0
+@export var timer_initial_time: float = 55.0
 var timer_initial_left: float = timer_initial_time
 var timer_initial_active: bool = true
 @onready var timer_initial_label: Label = $"../CanvasLayer/TimerInitialLabel"

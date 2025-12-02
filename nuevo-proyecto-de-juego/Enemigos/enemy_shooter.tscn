@@ -8,11 +8,12 @@
 size = Vector2(68, 62)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2xpqq"]
-radius = 198.0
-height = 396.0
+radius = 334.0
+height = 684.0
 
 [node name="enemyShooter" type="CharacterBody2D"]
 visibility_layer = 4
+scale = Vector2(0.5, 0.5)
 script = ExtResource("1_3vy8j")
 shoot_interval = 2.5
 bullet_scene = ExtResource("2_f6mbu")

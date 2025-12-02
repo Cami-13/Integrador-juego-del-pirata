@@ -1,0 +1,47 @@
+[gd_scene load_steps=8 format=3 uid="uid://1k7vc5jq30us"]
+
+[ext_resource type="Script" uid="uid://cj28rfy4sbxet" path="res://arbol.gd" id="1_a6x1h"]
+[ext_resource type="Texture2D" uid="uid://bwua4fq2ytugx" path="res://Assets/Sprites/Front Palm Trees/Front Palm Tree Top 01.png" id="2_kg568"]
+[ext_resource type="Texture2D" uid="uid://cdahamskl5eqv" path="res://Assets/Sprites/Front Palm Trees/Front Palm Tree Top 02.png" id="3_uvlja"]
+[ext_resource type="Texture2D" uid="uid://16n0agxlsfxj" path="res://Assets/Sprites/Front Palm Trees/Front Palm Tree Top 03.png" id="4_pjrsh"]
+[ext_resource type="Texture2D" uid="uid://qyr4i86rnjom" path="res://Assets/Sprites/Front Palm Trees/Front Palm Tree Top 04.png" id="5_pqbsa"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_n0f3h"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_kg568")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_uvlja")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_pjrsh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_pqbsa")
+}],
+"loop": true,
+"name": &"Idle1",
+"speed": 12.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"tron",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4wi78"]
+size = Vector2(36, 23)
+
+[node name="Arbol" type="CharacterBody2D"]
+collision_layer = 4
+script = ExtResource("1_a6x1h")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_n0f3h")
+animation = &"Idle1"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4.5)
+shape = SubResource("RectangleShape2D_4wi78")
