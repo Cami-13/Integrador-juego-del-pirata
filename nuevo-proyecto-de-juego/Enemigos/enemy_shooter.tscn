@@ -1,8 +1,48 @@
-[gd_scene load_steps=6 format=3 uid="uid://bxvvinuxbo3di"]
+[gd_scene load_steps=13 format=3 uid="uid://bxvvinuxbo3di"]
 
-[ext_resource type="Texture2D" uid="uid://2qnmbubohyvb" path="res://Sprite/icon.svg" id="1_2xpqq"]
 [ext_resource type="Script" uid="uid://4drsstdhdcdt" path="res://Scripts/enemy_shooter.gd" id="1_3vy8j"]
 [ext_resource type="PackedScene" uid="uid://ur1uqfjpajq8" path="res://Enemigos/bullet.tscn" id="2_f6mbu"]
+[ext_resource type="Texture2D" uid="uid://dbsxf163bow6p" path="res://Assets/Cannon/Cannon Fire/1.png" id="3_pur4i"]
+[ext_resource type="Texture2D" uid="uid://syn6etck6tri" path="res://Assets/Cannon/Cannon Fire/2.png" id="4_v6g1r"]
+[ext_resource type="Texture2D" uid="uid://c3eh0n2q63wlu" path="res://Assets/Cannon/Cannon Fire/3.png" id="5_7ebf2"]
+[ext_resource type="Texture2D" uid="uid://d4bnvp1r2j0rr" path="res://Assets/Cannon/Cannon Fire/4.png" id="6_qd4bg"]
+[ext_resource type="Texture2D" uid="uid://8788hmxkl2bw" path="res://Assets/Cannon/Cannon Fire/5.png" id="7_klpab"]
+[ext_resource type="Texture2D" uid="uid://cgtrvh2gqgdh" path="res://Assets/Cannon/Cannon Fire/6.png" id="8_jwxj8"]
+[ext_resource type="Texture2D" uid="uid://bmdg6r5fm0yvj" path="res://Assets/Cannon/Cannon Idle/1.png" id="9_n2rbp"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v0272"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_pur4i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_v6g1r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_7ebf2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_qd4bg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_klpab")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_jwxj8")
+}],
+"loop": false,
+"name": &"Cannon Fire",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_n2rbp")
+}],
+"loop": false,
+"name": &"Cannon Idle",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3vy8j"]
 size = Vector2(68, 62)
@@ -15,12 +55,14 @@ height = 684.0
 visibility_layer = 4
 scale = Vector2(0.5, 0.5)
 script = ExtResource("1_3vy8j")
-shoot_interval = 2.5
 bullet_scene = ExtResource("2_f6mbu")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.53125, 0.484375)
-texture = ExtResource("1_2xpqq")
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_v0272")
+animation = &"Cannon Fire"
+frame = 5
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_3vy8j")

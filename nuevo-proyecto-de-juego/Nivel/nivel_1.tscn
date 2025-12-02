@@ -344,7 +344,7 @@ position = Vector2(1881, -150)
 position = Vector2(950, 82)
 
 [node name="enemyShooter" parent="." instance=ExtResource("5_2xhbh")]
-position = Vector2(1335, 144)
+position = Vector2(1337, 163)
 
 [node name="key" parent="." instance=ExtResource("6_ffpk3")]
 position = Vector2(1815, 106)
@@ -449,35 +449,35 @@ scale = Vector2(1, 1)
 tile_map_data = PackedByteArray("AAATAAcAAAAAAAAAAAATAAgAAAAAAAEAAAATAAkAAAAAAAIAAAATAAoAAAAAAAMAAAAUAAcAAAABAAAAAAAUAAgAAAABAAEAAAAUAAkAAAABAAIAAAAUAAoAAAABAAMAAAAyAAQAAAAAAAAAAAAyAAUAAAAAAAEAAAAyAAYAAAAAAAIAAAAyAAcAAAAAAAMAAAAzAAQAAAABAAAAAAAzAAUAAAABAAEAAAAzAAYAAAABAAIAAAAzAAcAAAABAAMAAABKAAgAAAAAAAAAAABKAAkAAAAAAAEAAABKAAoAAAAAAAIAAABKAAsAAAAAAAMAAABLAAgAAAABAAAAAABLAAkAAAABAAEAAABLAAoAAAABAAIAAABLAAsAAAABAAMAAABeAAgAAAAAAAAAAABeAAkAAAAAAAEAAABeAAoAAAAAAAIAAABeAAsAAAAAAAMAAABfAAgAAAABAAAAAABfAAkAAAABAAEAAABfAAoAAAABAAIAAABfAAsAAAABAAMAAACGAP3/AAAAAAAAAACGAP7/AAAAAAEAAACGAP//AAAAAAIAAACGAAAAAAAAAAMAAACHAP3/AAABAAAAAACHAP7/AAABAAEAAACHAP//AAABAAIAAACHAAAAAAABAAMAAACQAP3/AAAAAAAAAACQAP7/AAAAAAEAAACQAP//AAAAAAIAAACQAAAAAAAAAAMAAACRAP3/AAABAAAAAACRAP7/AAABAAEAAACRAP//AAABAAIAAACRAAAAAAABAAMAAACcABkAAAACAAIAAACcABoAAAACAAMAAACdABkAAAADAAIAAACdABoAAAADAAMAAACeABkAAAAEAAIAAACeABoAAAAEAAMAAACfABkAAAAFAAIAAAA+AAkAAAACAAIAAAA+AAoAAAACAAMAAAA/AAkAAAADAAIAAAA/AAoAAAADAAMAAABAAAkAAAAEAAIAAABAAAoAAAAEAAMAAABBAAkAAAAFAAIAAAABAAUAAAACAAIAAAABAAYAAAACAAMAAAACAAUAAAADAAIAAAACAAYAAAADAAMAAAADAAUAAAAEAAIAAAADAAYAAAAEAAMAAAAEAAUAAAAFAAIAAABBAA8AAAACAAAAAABCAA8AAAADAAAAAABCABAAAAADAAEAAABDAA8AAAAEAAAAAABDABAAAAAEAAEAAABEAA8AAAAFAAAAAABEABAAAAAFAAEAAAB8AAIAAAACAAAAAAB9AAIAAAADAAAAAAB9AAMAAAADAAEAAAB+AAIAAAAEAAAAAAB+AAMAAAAEAAEAAAB/AAIAAAAFAAAAAAB/AAMAAAAFAAEAAAA=")
 tile_set = SubResource("TileSet_qounu")
 
+[node name="Arbol4" parent="." instance=ExtResource("12_gm3rt")]
+position = Vector2(1039, 129)
+
+[node name="Arbol2" parent="." instance=ExtResource("12_gm3rt")]
+position = Vector2(319, 97)
+
+[node name="Arbol3" parent="." instance=ExtResource("12_gm3rt")]
+position = Vector2(815, 48)
+
+[node name="Arbol5" parent="." instance=ExtResource("12_gm3rt")]
+position = Vector2(1199, 113)
+
+[node name="Arbol7" parent="." instance=ExtResource("12_gm3rt")]
+position = Vector2(1519, 113)
+
+[node name="Arbol8" parent="." instance=ExtResource("12_gm3rt")]
+position = Vector2(2001, 16)
+
+[node name="Arbol6" parent="." instance=ExtResource("12_gm3rt")]
+position = Vector2(1056, 225)
+
+[node name="Arbol10" parent="." instance=ExtResource("12_gm3rt")]
+position = Vector2(2318, -62)
+
+[node name="Arbol11" parent="." instance=ExtResource("12_gm3rt")]
+position = Vector2(2544, 385)
+
 [node name="Arbol" parent="." instance=ExtResource("12_gm3rt")]
 position = Vector2(63, 65)
 
-[node name="Arbol4" parent="Arbol" instance=ExtResource("12_gm3rt")]
-position = Vector2(976, 64)
-
-[node name="Arbol2" parent="Arbol" instance=ExtResource("12_gm3rt")]
-position = Vector2(256, 32)
-
-[node name="Arbol3" parent="Arbol" instance=ExtResource("12_gm3rt")]
-position = Vector2(752, -17)
-
-[node name="Arbol5" parent="Arbol" instance=ExtResource("12_gm3rt")]
-position = Vector2(1136, 48)
-
-[node name="Arbol6" parent="Arbol" instance=ExtResource("12_gm3rt")]
-position = Vector2(993, 160)
-
-[node name="Arbol7" parent="Arbol" instance=ExtResource("12_gm3rt")]
-position = Vector2(1456, 48)
-
-[node name="Arbol8" parent="Arbol" instance=ExtResource("12_gm3rt")]
-position = Vector2(1938, -49)
-
-[node name="Arbol9" parent="Arbol" instance=ExtResource("12_gm3rt")]
-position = Vector2(2097, -128)
-
-[node name="Arbol10" parent="Arbol" instance=ExtResource("12_gm3rt")]
-position = Vector2(2255, -127)
-
-[node name="Arbol11" parent="Arbol" instance=ExtResource("12_gm3rt")]
-position = Vector2(2481, 320)
+[node name="Arbol9" parent="." instance=ExtResource("12_gm3rt")]
+position = Vector2(2160, -63)

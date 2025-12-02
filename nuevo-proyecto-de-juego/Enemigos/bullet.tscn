@@ -1,7 +1,51 @@
-[gd_scene load_steps=4 format=3 uid="uid://ur1uqfjpajq8"]
+[gd_scene load_steps=12 format=3 uid="uid://ur1uqfjpajq8"]
 
 [ext_resource type="Script" uid="uid://c7xalw48ixbhr" path="res://Scripts/bullet.gd" id="1_ao203"]
-[ext_resource type="Texture2D" uid="uid://2qnmbubohyvb" path="res://Sprite/icon.svg" id="2_u5q4s"]
+[ext_resource type="Texture2D" uid="uid://ceexi26mq73ky" path="res://Assets/Cannon/Cannon Ball Idle/1.png" id="2_k8h1s"]
+[ext_resource type="Texture2D" uid="uid://c63po05e1bu53" path="res://Assets/Cannon/Cannon Ball Explosion/1.png" id="3_mg6bt"]
+[ext_resource type="Texture2D" uid="uid://bagvncw0s8ys2" path="res://Assets/Cannon/Cannon Ball Explosion/2.png" id="4_0k0f0"]
+[ext_resource type="Texture2D" uid="uid://b8hfkbp80eehj" path="res://Assets/Cannon/Cannon Ball Explosion/3.png" id="5_5cigx"]
+[ext_resource type="Texture2D" uid="uid://c46umqak7vxua" path="res://Assets/Cannon/Cannon Ball Explosion/4.png" id="6_4px71"]
+[ext_resource type="Texture2D" uid="uid://b0ta8ixuxh7yo" path="res://Assets/Cannon/Cannon Ball Explosion/5.png" id="7_p5fs7"]
+[ext_resource type="Texture2D" uid="uid://b6hw5cf5nl0de" path="res://Assets/Cannon/Cannon Ball Explosion/6.png" id="8_vtbi0"]
+[ext_resource type="Texture2D" uid="uid://cw8uwp2ygnvgy" path="res://Assets/Cannon/Cannon Ball Explosion/7.png" id="9_cw34j"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jglmc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_mg6bt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_0k0f0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_5cigx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_4px71")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_p5fs7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_vtbi0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_cw34j")
+}],
+"loop": true,
+"name": &"Explosion",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_k8h1s")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2b2rl"]
 size = Vector2(19, 19)
@@ -10,10 +54,10 @@ size = Vector2(19, 19)
 scale = Vector2(0.5, 0.5)
 script = ExtResource("1_ao203")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-0.5, -1.5)
-scale = Vector2(0.148438, 0.148438)
-texture = ExtResource("2_u5q4s")
+sprite_frames = SubResource("SpriteFrames_jglmc")
+animation = &"Explosion"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, -1.5)
