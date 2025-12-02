@@ -50,3 +50,8 @@ func open_chest(player):
 
 	player.timer_initial_left = player.timer_initial_time
 	player.start_post_chest_timer()
+
+	if player.has_key and player.has_node("../CanvasLayer/KeyIcon"):
+		var key_icon = player.get_node("../CanvasLayer/KeyIcon")
+		key_icon.visible = false
+		player.has_key = false

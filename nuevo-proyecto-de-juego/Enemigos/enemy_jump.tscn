@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://8kyd54tslssk"]
 
-[ext_resource type="Script" uid="uid://cekfwmmvhrixp" path="res://enemy_jump.gd" id="1_w27da"]
+[ext_resource type="Script" uid="uid://cekfwmmvhrixp" path="res://Scripts/enemy_jump.gd" id="1_w27da"]
 [ext_resource type="Texture2D" uid="uid://t6mfmgvpkm28" path="res://Assets/Fierce Tooth/Idle/Idle 01.png" id="2_11rlr"]
 [ext_resource type="Texture2D" uid="uid://bnev36dg6rfpd" path="res://Assets/Fierce Tooth/Idle/Idle 02.png" id="3_vlr2q"]
 [ext_resource type="Texture2D" uid="uid://dyvjo1u0xixb8" path="res://Assets/Fierce Tooth/Idle/Idle 03.png" id="4_fp6ds"]

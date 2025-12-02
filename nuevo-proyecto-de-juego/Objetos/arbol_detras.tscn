@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://yh72klkn567p"]
 
-[ext_resource type="Script" uid="uid://cj28rfy4sbxet" path="res://arbol.gd" id="1_k2uwl"]
+[ext_resource type="Script" uid="uid://cj28rfy4sbxet" path="res://Scripts/arbol.gd" id="1_k2uwl"]
 [ext_resource type="Texture2D" uid="uid://1o86fject41c" path="res://Assets/Sprites/Back Palm Trees/Back Palm Tree Regular 01.png" id="2_7ulyg"]
 [ext_resource type="Texture2D" uid="uid://b0tcon6c5tik" path="res://Assets/Sprites/Back Palm Trees/Back Palm Tree Regular 02.png" id="3_mls2c"]
 [ext_resource type="Texture2D" uid="uid://b37it7f4hhny3" path="res://Assets/Sprites/Back Palm Trees/Back Palm Tree Regular 03.png" id="4_8b0ye"]

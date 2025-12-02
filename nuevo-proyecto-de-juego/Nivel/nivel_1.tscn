@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://fpl4y6q27ms6"]
+[gd_scene load_steps=19 format=4 uid="uid://fpl4y6q27ms6"]
 
 [ext_resource type="Script" uid="uid://dw22s0x37r443" path="res://Scripts/nivel_1.gd" id="1_bre3x"]
 [ext_resource type="PackedScene" uid="uid://c2118cbx07yww" path="res://Player/player.tscn" id="3_j8tee"]
@@ -6,13 +6,14 @@
 [ext_resource type="PackedScene" uid="uid://bxvvinuxbo3di" path="res://Enemigos/enemy_shooter.tscn" id="5_2xhbh"]
 [ext_resource type="PackedScene" uid="uid://dne40g1hf6b4f" path="res://Objetos/key.tscn" id="6_ffpk3"]
 [ext_resource type="PackedScene" uid="uid://bwsbay58fn8iy" path="res://Objetos/chest.tscn" id="7_gm3rt"]
-[ext_resource type="PackedScene" uid="uid://cof1quxf1qibg" path="res://pincho.tscn" id="8_pmdci"]
-[ext_resource type="PackedScene" uid="uid://yh72klkn567p" path="res://arbol_detras.tscn" id="9_gm3rt"]
-[ext_resource type="PackedScene" uid="uid://8kyd54tslssk" path="res://enemy_jump.tscn" id="9_j8tee"]
-[ext_resource type="PackedScene" uid="uid://cqlrqm5how0v0" path="res://pincho_grande.tscn" id="10_2xhbh"]
+[ext_resource type="PackedScene" uid="uid://cof1quxf1qibg" path="res://Enemigos/pincho.tscn" id="8_pmdci"]
+[ext_resource type="Texture2D" uid="uid://c7u80k4gheebt" path="res://Assets/Chest Key/Idle/1.png" id="8_vyhoe"]
+[ext_resource type="PackedScene" uid="uid://yh72klkn567p" path="res://Objetos/arbol_detras.tscn" id="9_gm3rt"]
+[ext_resource type="PackedScene" uid="uid://8kyd54tslssk" path="res://Enemigos/enemy_jump.tscn" id="9_j8tee"]
+[ext_resource type="PackedScene" uid="uid://cqlrqm5how0v0" path="res://Enemigos/pincho_grande.tscn" id="10_2xhbh"]
 [ext_resource type="Texture2D" uid="uid://dvjp3u1ilr3wp" path="res://Assets/Sprites/Terrain/Terrain (32x32).png" id="10_yichk"]
 [ext_resource type="Texture2D" uid="uid://bt00q1p4my0nu" path="res://Assets/Sprites/Front Palm Trees/Front Palm Bottom and Grass (32x32).png" id="11_ffpk3"]
-[ext_resource type="PackedScene" uid="uid://1k7vc5jq30us" path="res://arbol.tscn" id="12_gm3rt"]
+[ext_resource type="PackedScene" uid="uid://1k7vc5jq30us" path="res://Objetos/arbol.tscn" id="12_gm3rt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2xhbh"]
 texture = ExtResource("10_yichk")
@@ -370,6 +371,14 @@ offset_left = 129.0
 offset_top = 1.0
 offset_right = 169.0
 offset_bottom = 24.0
+
+[node name="KeyIcon" type="TextureRect" parent="CanvasLayer"]
+visible = false
+offset_left = 3.0
+offset_top = 24.0
+offset_right = 43.0
+offset_bottom = 64.0
+texture = ExtResource("8_vyhoe")
 
 [node name="Pincho" parent="." instance=ExtResource("8_pmdci")]
 position = Vector2(1640, 168)
