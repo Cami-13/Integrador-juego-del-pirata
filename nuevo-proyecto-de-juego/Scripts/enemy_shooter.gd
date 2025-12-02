@@ -16,16 +16,15 @@ var cooldown_timer: Timer
 func _ready():
 	if cannon_sprite:
 		cannon_sprite.play("Cannon Idle")
-	# Crear y configurar timers
 	shoot_timer = Timer.new()
 	shoot_timer.one_shot = true
-	shoot_timer.wait_time = 0.2  # Espera antes de disparar (para animación)
+	shoot_timer.wait_time = 0.2  
 	add_child(shoot_timer)
 	shoot_timer.connect("timeout", Callable(self, "_on_shoot_timer_timeout"))
 
 	cooldown_timer = Timer.new()
 	cooldown_timer.one_shot = true
-	cooldown_timer.wait_time = shoot_interval  # Intervalo entre disparos
+	cooldown_timer.wait_time = shoot_interval  
 	add_child(cooldown_timer)
 	cooldown_timer.connect("timeout", Callable(self, "_on_cooldown_timer_timeout"))
 
@@ -43,20 +42,17 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 
 func _process(delta):
 	if player_in_range and player_ref != null:
-		# Mantener dirección izquierda por defecto
 		if player_ref.global_position.x > global_position.x:
-			# Solo voltear si el jugador está a la derecha
 			cannon_sprite.flip_h = true
 		else:
-			# Mantener mirando a la izquierda por defecto
 			cannon_sprite.flip_h = false
 
 	if player_in_range and can_shoot:
 		can_shoot = false
 		if cannon_sprite:
 			cannon_sprite.play("Cannon Fire")
-		shoot_timer.start()      # Espera antes de disparar
-		cooldown_timer.start()   # Inicia cooldown
+		shoot_timer.start()   
+		cooldown_timer.start()  
 	elif cannon_sprite and not player_in_range:
 		cannon_sprite.play("Cannon Idle")
 
@@ -66,7 +62,6 @@ func _on_shoot_timer_timeout():
 		print("Error: bullet_scene no asignado o player_ref es null")
 		return
 	var bullet = bullet_scene.instantiate()
-	# Añadimos al root de la escena para asegurar visibilidad
 	get_tree().current_scene.add_child(bullet)
 	bullet.global_position = shoot_point.global_position
 

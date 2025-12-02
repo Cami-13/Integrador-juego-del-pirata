@@ -19,7 +19,7 @@ func _on_body_entered(body) -> void:
 		var attack_dir = (body.global_position - global_position).normalized()
 		body.lose_life_from_direction(attack_dir)
 
-		# Cambia a animación Explosion
+
 		if sprite:
 			sprite.play("Explosion")
 		
@@ -27,8 +27,8 @@ func _on_body_entered(body) -> void:
 		monitorable = false
 		monitoring = false
 
-		# Espera un tiempo fijo antes de eliminar la bala
-		var explosion_duration = 0.5  # Ajusta según duración de tu animación
+
+		var explosion_duration = 0.5  
 		var t = Timer.new()
 		t.one_shot = true
 		t.wait_time = explosion_duration

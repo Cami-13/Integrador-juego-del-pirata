@@ -1,8 +1,14 @@
 extends CharacterBody2D
 
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+
 var gravity = 3.0
 var speed = 100.0
 var moving_left = true
+
+func _ready():
+	if animated_sprite_2d:
+		animated_sprite_2d.play("Run")  
 
 func _physics_process(delta):
 	apply_gravity()

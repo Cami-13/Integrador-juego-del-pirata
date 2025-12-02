@@ -1,7 +1,38 @@
-[gd_scene load_steps=5 format=3 uid="uid://qpjmnhwk15h4"]
+[gd_scene load_steps=11 format=3 uid="uid://qpjmnhwk15h4"]
 
 [ext_resource type="Script" uid="uid://ctta3m52qdtok" path="res://Scripts/enemy.gd" id="1_4gyqm"]
-[ext_resource type="Texture2D" uid="uid://2qnmbubohyvb" path="res://Sprite/icon.svg" id="2_qi2p4"]
+[ext_resource type="Texture2D" uid="uid://b2dmc8d53wsgu" path="res://Assets/Pink Star/02-Run/Run 01.png" id="2_7ausg"]
+[ext_resource type="Texture2D" uid="uid://cd0tvfit85bj1" path="res://Assets/Pink Star/02-Run/Run 02.png" id="3_v0yji"]
+[ext_resource type="Texture2D" uid="uid://hqsvl6ipke8g" path="res://Assets/Pink Star/02-Run/Run 03.png" id="4_1le02"]
+[ext_resource type="Texture2D" uid="uid://dt164drgl218b" path="res://Assets/Pink Star/02-Run/Run 04.png" id="5_noune"]
+[ext_resource type="Texture2D" uid="uid://b2yiwjxt1nmnc" path="res://Assets/Pink Star/02-Run/Run 05.png" id="6_wxmfl"]
+[ext_resource type="Texture2D" uid="uid://dddvcgvofv081" path="res://Assets/Pink Star/02-Run/Run 06.png" id="7_b28j6"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_csdb6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_7ausg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_v0yji")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_1le02")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_noune")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_wxmfl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_b28j6")
+}],
+"loop": true,
+"name": &"Run",
+"speed": 12.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iifgy"]
 size = Vector2(51, 50)
@@ -15,11 +46,12 @@ collision_mask = 4
 script = ExtResource("1_4gyqm")
 metadata/_edit_group_ = true
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(0.819608, 0.133333, 0, 1)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-9.53674e-07, 1)
-scale = Vector2(0.4375, 0.414063)
-texture = ExtResource("2_qi2p4")
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_csdb6")
+animation = &"Run"
+frame_progress = 0.533065
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, 1)
