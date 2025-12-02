@@ -1,4 +1,4 @@
-extends CharacterBody2D 
+extends CharacterBody2D
 
 @export var move_speed: float = 100.0
 @export var jump_speed: float = 300.0
@@ -8,28 +8,31 @@ var is_facing_right = true
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 var start_position: Vector2
-var life: int = 1  
+var life: int = 1
 
 var has_key: bool = false
 var gold: int = 0
 var inventory_sword: String = ""
+
 var frontal_immune: bool = false
+var total_immune: bool = false   
 
 var is_dead: bool = false
 var can_move: bool = true
 
-@export var timer_initial_time: float = 55.0
+@export var timer_initial_time: float = 70.0
 var timer_initial_left: float = timer_initial_time
 var timer_initial_active: bool = true
 @onready var timer_initial_label: Label = $"../CanvasLayer/TimerInitialLabel"
 
-@export var timer_post_time: float = 35.0
+@export var timer_post_time: float = 55.0
 var timer_post_left: float = timer_post_time
 var timer_post_active: bool = false
 @onready var timer_post_label: Label = $"../CanvasLayer/TimerPostLabel"
 
-@onready var gold_label: Label = $"../CanvasLayer/GoldLabel"
+
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite
+@onready var gold_label: Label = $"../CanvasLayer/GoldLabel"
 
 var chest_checkpoint: Vector2 = Vector2.ZERO
 var chest_touched: bool = false
@@ -41,9 +44,7 @@ var knockback_timer: float = 0.0
 @export var default_knockback_vertical: float = 260.0
 @export var default_knockback_duration: float = 0.25
 
-# -----------------------------
-# ANIMACIONES
-# -----------------------------
+
 var animations_default := {
 	"Idle": "Idle",
 	"Run": "Run",
@@ -58,17 +59,23 @@ var animations_sword := {
 	"Fall": "Fall Sword"
 }
 
-# -----------------------------
-# ATAQUE ESPADA
-# -----------------------------
+
 var is_attacking: bool = false
 @export var attack_cooldown: float = 0.3
 var attack_timer: float = 0.0
 
-# -------------------------------------------------
-# READY
-# -------------------------------------------------
+
 func _ready() -> void:
+	if has_node("AttackArea"):
+		var aa = $AttackArea
+		if not aa.is_connected("body_entered", Callable(self, "_on_attack_area_body_entered")):
+			aa.connect("body_entered", Callable(self, "_on_attack_area_body_entered"))
+
+		aa.monitoring = false
+		aa.monitorable = false
+		if aa.is_in_group("PlayerAttack"):
+			aa.remove_from_group("PlayerAttack")
+
 	if spawn_point:
 		start_position = spawn_point.global_position
 	else:
@@ -78,16 +85,13 @@ func _ready() -> void:
 	timer_initial_active = true
 	call_deferred("update_timer_initial_label")
 
-	timer_post_label.visible = false  
+	timer_post_label.visible = false
 	update_gold_label()
 
 	global_position = start_position
 
-# -------------------------------------------------
-# PHYSICS
-# -------------------------------------------------
+
 func _physics_process(delta: float) -> void:
-	# Knockback
 	if knockback_timer > 0.0:
 		velocity = knockback
 		knockback_timer -= delta
@@ -97,7 +101,6 @@ func _physics_process(delta: float) -> void:
 	else:
 		_movement(delta)
 
-	# Gravedad
 	if not is_on_floor():
 		velocity.y += gravity * delta
 
@@ -108,34 +111,30 @@ func _physics_process(delta: float) -> void:
 
 	update_animations()
 
-	# Timer inicial (solo si NO tocó cofre)
+	# Timers
 	if timer_initial_active and not chest_touched:
 		timer_initial_left -= delta
 		if timer_initial_left <= 0:
 			_on_timer_initial_timeout()
 		update_timer_initial_label()
 
-	# Timer post cofre
 	if timer_post_active:
 		timer_post_left -= delta
 		if timer_post_left <= 0:
 			_on_timer_post_timeout()
 		update_timer_post_label()
 
-	# Ataque con espada
+	# Ataque
 	if chest_touched and Input.is_action_just_pressed("attack") and not is_attacking:
 		start_attack()
 
-	# Actualizar attack_timer por si se usa cooldown en lugar de animation_finished
 	if is_attacking:
 		attack_timer -= delta
 		if attack_timer <= 0:
 			is_attacking = false
 			can_move = true
 
-# -------------------------------------------------
-# MOVIMIENTO
-# -------------------------------------------------
+
 func _movement(delta: float) -> void:
 	if Input.is_action_just_pressed("jump") and is_on_floor() and can_move:
 		velocity.y = -jump_speed
@@ -157,12 +156,10 @@ func flip() -> void:
 		scale.x = -scale.x
 		is_facing_right = !is_facing_right
 
-# -------------------------------------------------
-# ANIMACIONES
-# -------------------------------------------------
+
 func update_animations():
 	if is_dead or is_attacking:
-		return  # No cambiar animación si está muerto o atacando
+		return
 
 	var anim_set = animations_default
 	if chest_touched:
@@ -180,25 +177,55 @@ func update_animations():
 	else:
 		animated_sprite.play(anim_set["Idle"])
 
-# -------------------------------------------------
-# ATAQUE ESPADA FUNCIONES
-# -------------------------------------------------
+
 func start_attack():
+	if not chest_touched:
+		return
+	if is_attacking:
+		return
+
 	is_attacking = true
 	can_move = false
+
+	if has_node("AttackArea"):
+		var aa = $AttackArea
+		aa.monitoring = true
+		aa.monitorable = true
+		if not aa.is_in_group("PlayerAttack"):
+			aa.add_to_group("PlayerAttack")
+
 	animated_sprite.play("Attack")
 	attack_timer = attack_cooldown
-	$AnimatedSprite.connect("animation_finished", Callable(self, "_on_attack_finished"))
+
+	if not animated_sprite.is_connected("animation_finished", Callable(self, "_on_attack_finished")):
+		animated_sprite.connect("animation_finished", Callable(self, "_on_attack_finished"))
 
 func _on_attack_finished():
 	if animated_sprite.animation == "Attack":
-		$AnimatedSprite.disconnect("animation_finished", Callable(self, "_on_attack_finished"))
+		if animated_sprite.is_connected("animation_finished", Callable(self, "_on_attack_finished")):
+			animated_sprite.disconnect("animation_finished", Callable(self, "_on_attack_finished"))
+
+		if has_node("AttackArea"):
+			var aa = $AttackArea
+			aa.monitoring = false
+			aa.monitorable = false
+			if aa.is_in_group("PlayerAttack"):
+				aa.remove_from_group("PlayerAttack")
+
 		is_attacking = false
 		can_move = true
 
-# -------------------------------------------------
-# KNOCKBACK
-# -------------------------------------------------
+
+func _on_attack_area_body_entered(body: Node2D) -> void:
+	if not chest_touched:
+		return
+	if not is_attacking:
+		return
+
+	if body.is_in_group("Enemy"):
+		body.queue_free()
+
+
 func apply_knockback(direction: Vector2, horizontal_force: float = default_knockback_horizontal, vertical_force: float = default_knockback_vertical, duration: float = default_knockback_duration) -> void:
 	if direction == Vector2.ZERO:
 		return
@@ -212,9 +239,7 @@ func apply_knockback(direction: Vector2, horizontal_force: float = default_knock
 	knockback = Vector2(kb_x, kb_y)
 	knockback_timer = duration
 
-# -------------------------------------------------
-# MUERTE
-# -------------------------------------------------
+
 func play_dead_hit():
 	can_move = false
 	is_dead = true
@@ -233,12 +258,10 @@ func play_dead_ground():
 	animated_sprite.play("Dead Ground")
 	await animated_sprite.animation_finished
 
-	await get_tree().create_timer(1.5).timeout  
+	await get_tree().create_timer(1.5).timeout
 	respawn_player()
 
-# -------------------------------------------------
-# RESPAWN
-# -------------------------------------------------
+
 func respawn_player():
 	if chest_touched and chest_checkpoint != Vector2.ZERO:
 		global_position = chest_checkpoint
@@ -263,29 +286,13 @@ func respawn_player():
 	else:
 		animated_sprite.play(animations_default["Idle"])
 
-# -------------------------------------------------
-# PERDER VIDA
-# -------------------------------------------------
-func lose_life(damage_from_position = null) -> void:
-	if is_dead:
-		return
-
-	if frontal_immune and damage_from_position != null:
-		var dir_to_damage = (damage_from_position - global_position).normalized()
-		if (is_facing_right and dir_to_damage.x > 0) or (not is_facing_right and dir_to_damage.x < 0):
-			return
-
-	life -= 1
-
-	if damage_from_position != null:
-		var dir = (body_pos_to_player_direction(damage_from_position)).normalized()
-		apply_knockback(dir)
-
-	play_dead_hit()
 
 func lose_life_from_direction(dir_to_damage: Vector2):
 	if is_dead:
 		return
+
+	if total_immune:
+		return  
 
 	if frontal_immune:
 		if (is_facing_right and dir_to_damage.x > 0) or (not is_facing_right and dir_to_damage.x < 0):
@@ -295,12 +302,7 @@ func lose_life_from_direction(dir_to_damage: Vector2):
 	apply_knockback(dir_to_damage)
 	play_dead_hit()
 
-func body_pos_to_player_direction(damage_from_position: Vector2) -> Vector2:
-	return (global_position - damage_from_position) * -1
 
-# -------------------------------------------------
-# ORO / ESPADA
-# -------------------------------------------------
 func add_gold(amount: int):
 	gold += amount
 	update_gold_label()
@@ -309,25 +311,29 @@ func add_sword(sword_name: String):
 	inventory_sword = sword_name
 	frontal_immune = true
 
-func update_gold_label():
-	if gold_label:
-		gold_label.text = "Oro: " + str(gold)
 
-# -------------------------------------------------
-# CHECKPOINT / COFRE
-# -------------------------------------------------
 func set_checkpoint(new_position: Vector2) -> void:
 	chest_checkpoint = new_position
 
 func on_chest_opened():
 	chest_touched = true
+	total_immune = true   
+
+
+	move_speed += 50
+	print("Nueva velocidad:", move_speed)
+
 	timer_initial_active = false
-	timer_initial_label.visible = false
+	if timer_initial_label:
+		timer_initial_label.visible = false
+
 	start_post_chest_timer()
 
-# -------------------------------------------------
-# TIMERS
-# -------------------------------------------------
+
+func update_gold_label():
+	if gold_label:
+		gold_label.text = "Oro: " + str(gold)
+
 func update_timer_initial_label():
 	if not timer_initial_active:
 		timer_initial_label.visible = false

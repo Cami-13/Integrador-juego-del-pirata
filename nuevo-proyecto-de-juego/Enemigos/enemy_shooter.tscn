@@ -51,7 +51,7 @@ size = Vector2(68, 62)
 radius = 334.0
 height = 684.0
 
-[node name="enemyShooter" type="CharacterBody2D"]
+[node name="enemyShooter" type="CharacterBody2D" groups=["Enemy"]]
 visibility_layer = 4
 scale = Vector2(0.5, 0.5)
 script = ExtResource("1_3vy8j")
@@ -60,14 +60,12 @@ bullet_scene = ExtResource("2_f6mbu")
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_v0272")
-animation = &"Cannon Fire"
-frame = 5
-frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_3vy8j")
 
 [node name="RangeArea" type="Area2D" parent="."]
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
 shape = SubResource("CapsuleShape2D_2xpqq")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://cvol8keudndiy"]
 
-[ext_resource type="Script" uid="uid://ctta3m52qdtok" path="res://Scripts/enemy.gd" id="1_10sed"]
+[ext_resource type="Script" uid="uid://be3064yfpc2mi" path="res://crabby_enemy.gd" id="1_10sed"]
 [ext_resource type="Texture2D" uid="uid://cc6ghyigrvlui" path="res://Assets/Crabby/02-Run/Run 01.png" id="2_8dd0j"]
 [ext_resource type="Texture2D" uid="uid://by5r8umbj4uny" path="res://Assets/Crabby/02-Run/Run 02.png" id="3_840v3"]
 [ext_resource type="Texture2D" uid="uid://bgn2p05wthdpy" path="res://Assets/Crabby/02-Run/Run 03.png" id="4_p6k5y"]
@@ -34,13 +34,14 @@ animations = [{
 "speed": 12.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_10sed"]
-size = Vector2(38, 22)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8dd0j"]
-size = Vector2(40, 24)
+size = Vector2(38, 23)
 
-[node name="Crabby Enemy" type="CharacterBody2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_10sed"]
+size = Vector2(43, 27)
+
+[node name="Crabby Enemy" type="CharacterBody2D" groups=["Enemy"]]
+collision_layer = 2
 collision_mask = 4
 script = ExtResource("1_10sed")
 metadata/_edit_group_ = true
@@ -48,13 +49,7 @@ metadata/_edit_group_ = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_wmpxs")
 animation = &"Run"
-frame_progress = 0.0814952
-
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(1, 1)
-shape = SubResource("RectangleShape2D_10sed")
+frame_progress = 0.00108929
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 position = Vector2(-31, -11)
@@ -64,7 +59,13 @@ collision_mask = 4
 collide_with_areas = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, 1)
+position = Vector2(1, 0.5)
 shape = SubResource("RectangleShape2D_8dd0j")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(1.5, 0.5)
+shape = SubResource("RectangleShape2D_10sed")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

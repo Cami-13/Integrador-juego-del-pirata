@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://c2118cbx07yww"]
+[gd_scene load_steps=46 format=3 uid="uid://c2118cbx07yww"]
 
 [ext_resource type="Script" uid="uid://cuwceue62o6lq" path="res://Scripts/player.gd" id="1_onrkg"]
 [ext_resource type="Texture2D" uid="uid://cwxe73i7kyljc" path="res://Assets/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/16-Attack 2/Attack 2 01.png" id="2_6pogt"]
@@ -225,21 +225,20 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_onrkg"]
+size = Vector2(55, 27)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6pogt"]
 size = Vector2(24, 27)
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
-collision_mask = 4
+collision_mask = 6
 script = ExtResource("1_onrkg")
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_bbimk")
 animation = &"Attack"
-frame_progress = 0.0432096
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -4.5)
-shape = SubResource("RectangleShape2D_onrkg")
+frame_progress = 0.389974
 
 [node name="Camera2D" type="Camera2D" parent="."]
 limit_left = 0
@@ -253,4 +252,16 @@ position_smoothing_enabled = true
 wait_time = 0.3
 one_shot = true
 
+[node name="AttackArea" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+position = Vector2(16.5, -4.5)
+shape = SubResource("RectangleShape2D_onrkg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4.5)
+shape = SubResource("RectangleShape2D_6pogt")
+
 [connection signal="timeout" from="TimerInvincible" to="." method="_on_timer_invincible_timeout"]
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
