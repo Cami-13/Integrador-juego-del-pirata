@@ -370,7 +370,6 @@ position = Vector2(1447, 236)
 position = Vector2(1835, 170)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="GoldLabel" type="Label" parent="CanvasLayer"]
 offset_right = 40.0
