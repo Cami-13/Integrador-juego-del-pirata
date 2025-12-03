@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://cw2agths40f4c"]
+
+[ext_resource type="Texture2D" uid="uid://b6854p0s3bdcp" path="res://Assets/Prefabs/Cartel_de_Victoria_.png" id="1_58qoj"]
+[ext_resource type="PackedScene" uid="uid://bcu02iy551d3y" path="res://pruebas_paralax.tscn" id="2_fty84"]
+[ext_resource type="Script" uid="uid://bqlhjrneiv2k0" path="res://canvas_layer.gd" id="3_l06h1"]
+[ext_resource type="Texture2D" uid="uid://chy4wy8yw0mrk" path="res://BotonVolver.png" id="4_eudnl"]
+
+[node name="Victoria" type="Node2D"]
+position = Vector2(250, 144)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_58qoj")
+
+[node name="PruebasParalax" parent="Sprite2D" instance=ExtResource("2_fty84")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("3_l06h1")
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+offset_left = 237.0
+offset_top = 167.0
+offset_right = 262.0
+offset_bottom = 195.0
+icon = ExtResource("4_eudnl")
+
+[connection signal="button_down" from="CanvasLayer/Button" to="CanvasLayer" method="_on_button_button_down"]

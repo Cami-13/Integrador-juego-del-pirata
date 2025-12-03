@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://vgfwhhgo80mg"]
+
+[ext_resource type="PackedScene" uid="uid://bcu02iy551d3y" path="res://pruebas_paralax.tscn" id="2_nug5f"]
+[ext_resource type="Script" uid="uid://bqlhjrneiv2k0" path="res://canvas_layer.gd" id="3_46ife"]
+[ext_resource type="Texture2D" uid="uid://brtpm1yu8luvc" path="res://Cartel_info.png" id="3_ko0ax"]
+
+[node name="CartelInfo" type="Node2D"]
+position = Vector2(250, 144)
+
+[node name="PruebasParalax" parent="." instance=ExtResource("2_nug5f")]
+scale = Vector2(0.5, 0.5)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("3_46ife")
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+offset_left = 210.0
+offset_top = 179.0
+offset_right = 277.0
+offset_bottom = 245.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(37, 5)
+scale = Vector2(0.504261, 0.4375)
+texture = ExtResource("3_ko0ax")
+
+[connection signal="button_down" from="CanvasLayer/Button" to="CanvasLayer" method="_on_button_button_down"]
+[connection signal="pressed" from="CanvasLayer/Button" to="CanvasLayer" method="_on_button_pressed"]

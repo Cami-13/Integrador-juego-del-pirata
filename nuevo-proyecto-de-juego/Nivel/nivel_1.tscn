@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://fpl4y6q27ms6"]
+[gd_scene load_steps=23 format=4 uid="uid://fpl4y6q27ms6"]
 
 [ext_resource type="Script" uid="uid://dw22s0x37r443" path="res://Scripts/nivel_1.gd" id="1_bre3x"]
 [ext_resource type="PackedScene" uid="uid://c2118cbx07yww" path="res://Player/player.tscn" id="3_j8tee"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://bcu02iy551d3y" path="res://pruebas_paralax.tscn" id="15_qounu"]
 [ext_resource type="PackedScene" uid="uid://cvol8keudndiy" path="res://crabby_enemy.tscn" id="16_2b1nu"]
 [ext_resource type="PackedScene" uid="uid://da7jmtij6yc3t" path="res://barrel.tscn" id="17_rcbxo"]
+[ext_resource type="PackedScene" uid="uid://b1qwl5ntp5e16" path="res://gold_gate.tscn" id="18_lludp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2xhbh"]
 texture = ExtResource("10_yichk")
@@ -409,7 +410,7 @@ position = Vector2(2706, 539)
 scale = Vector2(0.5, 0.5)
 
 [node name="SpawnPoint" type="Node2D" parent="."]
-position = Vector2(85, 221)
+position = Vector2(95, 202)
 
 [node name="PinchoGrande" parent="." instance=ExtResource("10_2xhbh")]
 position = Vector2(98, 733)
@@ -567,3 +568,7 @@ position = Vector2(1927, 540)
 
 [node name="Barrel2" parent="." instance=ExtResource("17_rcbxo")]
 position = Vector2(2926, 539)
+
+[node name="GoldGate" parent="." instance=ExtResource("18_lludp")]
+position = Vector2(-50, 123)
+required_gold = 10
