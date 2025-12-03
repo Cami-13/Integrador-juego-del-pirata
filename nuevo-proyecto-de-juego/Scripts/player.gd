@@ -30,9 +30,12 @@ var timer_post_left: float = timer_post_time
 var timer_post_active: bool = false
 @onready var timer_post_label: Label = $"../CanvasLayer/TimerPostLabel"
 
-
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite
 @onready var gold_label: Label = $"../CanvasLayer/GoldLabel"
+@onready var run_particles: AnimatedSprite2D = $RunParticles  # NUEVO
+
+# DeadEffect
+@onready var dead_effect: AnimatedSprite2D = $DeadEffect
 
 var chest_checkpoint: Vector2 = Vector2.ZERO
 var chest_touched: bool = false
@@ -44,26 +47,19 @@ var knockback_timer: float = 0.0
 @export var default_knockback_vertical: float = 260.0
 @export var default_knockback_duration: float = 0.25
 
-
 var animations_default := {
 	"Idle": "Idle",
 	"Run": "Run",
-	"Jump": "Jump",
-	"Fall": "Fall"
 }
 
 var animations_sword := {
 	"Idle": "Idle Sword",
 	"Run": "Run Sword",
-	"Jump": "Jump Sword",
-	"Fall": "Fall Sword"
 }
-
 
 var is_attacking: bool = false
 @export var attack_cooldown: float = 0.3
 var attack_timer: float = 0.0
-
 
 func _ready() -> void:
 	if has_node("AttackArea"):
@@ -89,6 +85,20 @@ func _ready() -> void:
 	update_gold_label()
 
 	global_position = start_position
+
+	# Configuración inicial de RunParticles
+	if run_particles:
+		run_particles.visible = false
+		run_particles.stop()
+
+	if run_particles:
+		run_particles.visible = true
+	if not run_particles.is_playing():
+		run_particles.play("RunEffect", true)  # activar loop
+
+	# Ocultar DeadEffect al inicio
+	if dead_effect:
+		dead_effect.visible = false
 
 
 func _physics_process(delta: float) -> void:
@@ -144,12 +154,14 @@ func _movement(delta: float) -> void:
 
 	flip()
 
+
 func move_x() -> void:
 	if not can_move:
 		return
 
 	var input_axis = Input.get_axis("move_left", "move_right")
 	velocity.x = input_axis * move_speed
+
 
 func flip() -> void:
 	if (is_facing_right and velocity.x < 0) or (not is_facing_right and velocity.x > 0):
@@ -159,25 +171,32 @@ func flip() -> void:
 
 func update_animations():
 	if is_dead or is_attacking:
+		if run_particles:
+			run_particles.visible = false
+			run_particles.stop()
 		return
 
 	var anim_set = animations_default
 	if chest_touched:
 		anim_set = animations_sword
 
-	if not is_on_floor():
-		if velocity.y < 0:
-			animated_sprite.play(anim_set["Jump"])
-		else:
-			animated_sprite.play(anim_set["Fall"])
-		return
-
-	if velocity.x != 0:
+	# Movimiento horizontal
+	if abs(velocity.x) > 0.1:
 		animated_sprite.play(anim_set["Run"])
+		if run_particles:
+			run_particles.visible = true
+			if not run_particles.is_playing():
+				run_particles.play("RunEffect")
 	else:
 		animated_sprite.play(anim_set["Idle"])
+		if run_particles:
+			run_particles.visible = false
+			run_particles.stop()
 
 
+# -----------------------
+# Ataque
+# -----------------------
 func start_attack():
 	if not chest_touched:
 		return
@@ -199,6 +218,7 @@ func start_attack():
 
 	if not animated_sprite.is_connected("animation_finished", Callable(self, "_on_attack_finished")):
 		animated_sprite.connect("animation_finished", Callable(self, "_on_attack_finished"))
+
 
 func _on_attack_finished():
 	if animated_sprite.animation == "Attack":
@@ -226,6 +246,9 @@ func _on_attack_area_body_entered(body: Node2D) -> void:
 		body.queue_free()
 
 
+# -----------------------
+# Knockback
+# -----------------------
 func apply_knockback(direction: Vector2, horizontal_force: float = default_knockback_horizontal, vertical_force: float = default_knockback_vertical, duration: float = default_knockback_duration) -> void:
 	if direction == Vector2.ZERO:
 		return
@@ -240,6 +263,9 @@ func apply_knockback(direction: Vector2, horizontal_force: float = default_knock
 	knockback_timer = duration
 
 
+# -----------------------
+# Muerte y respawn
+# -----------------------
 func play_dead_hit():
 	can_move = false
 	is_dead = true
@@ -250,6 +276,7 @@ func play_dead_hit():
 
 	play_dead_ground()
 
+
 func play_dead_ground():
 	can_move = false
 	is_dead = true
@@ -258,7 +285,15 @@ func play_dead_ground():
 	animated_sprite.play("Dead Ground")
 	await animated_sprite.animation_finished
 
+	# Reproducir DeadEffect si existe
+	if dead_effect:
+		dead_effect.visible = true
+		dead_effect.play("DeadEffect")
+		await dead_effect.animation_finished
+		dead_effect.visible = false
+
 	await get_tree().create_timer(1.5).timeout
+
 	respawn_player()
 
 
@@ -290,10 +325,8 @@ func respawn_player():
 func lose_life_from_direction(dir_to_damage: Vector2):
 	if is_dead:
 		return
-
 	if total_immune:
 		return  
-
 	if frontal_immune:
 		if (is_facing_right and dir_to_damage.x > 0) or (not is_facing_right and dir_to_damage.x < 0):
 			return
@@ -303,9 +336,13 @@ func lose_life_from_direction(dir_to_damage: Vector2):
 	play_dead_hit()
 
 
+# -----------------------
+# Recursos y checkpoints
+# -----------------------
 func add_gold(amount: int):
 	gold += amount
 	update_gold_label()
+
 
 func add_sword(sword_name: String):
 	inventory_sword = sword_name
@@ -315,10 +352,10 @@ func add_sword(sword_name: String):
 func set_checkpoint(new_position: Vector2) -> void:
 	chest_checkpoint = new_position
 
+
 func on_chest_opened():
 	chest_touched = true
 	total_immune = true   
-
 
 	move_speed += 50
 	print("Nueva velocidad:", move_speed)
@@ -334,6 +371,7 @@ func update_gold_label():
 	if gold_label:
 		gold_label.text = "Oro: " + str(gold)
 
+
 func update_timer_initial_label():
 	if not timer_initial_active:
 		timer_initial_label.visible = false
@@ -341,6 +379,7 @@ func update_timer_initial_label():
 
 	timer_initial_label.visible = true
 	timer_initial_label.text = "Tiempo: " + str(ceil(timer_initial_left)) + "s"
+
 
 func _on_timer_initial_timeout():
 	if not timer_initial_active:
@@ -352,13 +391,16 @@ func _on_timer_initial_timeout():
 	timer_initial_left = timer_initial_time
 	update_timer_initial_label()
 
+
 func start_post_chest_timer():
 	timer_post_left = timer_post_time
 	timer_post_active = true
 	timer_post_label.visible = true
 
+
 func update_timer_post_label():
 	timer_post_label.text = "Bonus: " + str(ceil(timer_post_left)) + "s"
+
 
 func _on_timer_post_timeout() -> void:
 	if chest_checkpoint != Vector2.ZERO:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://c2118cbx07yww"]
+[gd_scene load_steps=57 format=3 uid="uid://c2118cbx07yww"]
 
 [ext_resource type="Script" uid="uid://cuwceue62o6lq" path="res://Scripts/player.gd" id="1_onrkg"]
 [ext_resource type="Texture2D" uid="uid://cwxe73i7kyljc" path="res://Assets/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/16-Attack 2/Attack 2 01.png" id="2_6pogt"]
@@ -42,6 +42,15 @@
 [ext_resource type="Texture2D" uid="uid://h6lch2w6mbgp" path="res://Assets/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/10-Run Sword/Run Sword 04.png" id="37_gvnt1"]
 [ext_resource type="Texture2D" uid="uid://bketxanydbekp" path="res://Assets/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/10-Run Sword/Run Sword 05.png" id="38_1kmt7"]
 [ext_resource type="Texture2D" uid="uid://dex5ql7aehl0y" path="res://Assets/Captain Clown Nose/Sprites/Captain Clown Nose/Captain Clown Nose with Sword/10-Run Sword/Run Sword 06.png" id="39_c4i3b"]
+[ext_resource type="Texture2D" uid="uid://mwj3isu1rx2q" path="res://Assets/Captain Clown Nose/Sprites/Dialogue/Dead/Dead In 01.png" id="43_1kmt7"]
+[ext_resource type="Texture2D" uid="uid://daswak7mbxva6" path="res://Assets/Captain Clown Nose/Sprites/Dust Particles/Run 01.png" id="43_6rl0i"]
+[ext_resource type="Texture2D" uid="uid://cuwi4olelchbp" path="res://Assets/Captain Clown Nose/Sprites/Dust Particles/Run 02.png" id="44_7x5p2"]
+[ext_resource type="Texture2D" uid="uid://dbo4gq5fn0stm" path="res://Assets/Captain Clown Nose/Sprites/Dialogue/Dead/Dead In 02.png" id="44_c4i3b"]
+[ext_resource type="Texture2D" uid="uid://bjmp2dvdm0xth" path="res://Assets/Captain Clown Nose/Sprites/Dust Particles/Run 03.png" id="45_6eb1q"]
+[ext_resource type="Texture2D" uid="uid://l02wfyaaqmg5" path="res://Assets/Captain Clown Nose/Sprites/Dialogue/Dead/Dead In 03.png" id="45_uvbbp"]
+[ext_resource type="Texture2D" uid="uid://c4hj82cvbwa26" path="res://Assets/Captain Clown Nose/Sprites/Dialogue/Dead/Dead Out 01.png" id="46_7v2uk"]
+[ext_resource type="Texture2D" uid="uid://ouls1tkddx06" path="res://Assets/Captain Clown Nose/Sprites/Dust Particles/Run 04.png" id="46_wvbyc"]
+[ext_resource type="Texture2D" uid="uid://bhtdhnvafx4fq" path="res://Assets/Captain Clown Nose/Sprites/Dust Particles/Run 05.png" id="47_gvnt1"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_bbimk"]
 animations = [{
@@ -230,6 +239,88 @@ size = Vector2(55, 27)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6pogt"]
 size = Vector2(24, 27)
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_1kmt7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("43_6rl0i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44_7x5p2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_6eb1q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_wvbyc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("47_gvnt1")
+}],
+"loop": false,
+"name": &"RunEffect",
+"speed": 12.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wvbyc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("43_1kmt7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44_c4i3b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_uvbbp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_7v2uk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_uvbbp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_7v2uk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_uvbbp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_7v2uk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_uvbbp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_7v2uk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_uvbbp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_7v2uk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_uvbbp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_7v2uk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_uvbbp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_uvbbp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_7v2uk")
+}],
+"loop": false,
+"name": &"DeadEffect",
+"speed": 5.0
+}]
+
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 collision_mask = 6
 script = ExtResource("1_onrkg")
@@ -237,8 +328,7 @@ metadata/_edit_group_ = true
 
 [node name="AnimatedSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_bbimk")
-animation = &"Attack"
-frame_progress = 0.389974
+animation = &"Dead Ground"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 limit_left = 0
@@ -262,6 +352,20 @@ shape = SubResource("RectangleShape2D_onrkg")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -4.5)
 shape = SubResource("RectangleShape2D_6pogt")
+
+[node name="RunParticles" type="AnimatedSprite2D" parent="."]
+position = Vector2(-9, 4)
+sprite_frames = SubResource("SpriteFrames_1kmt7")
+animation = &"RunEffect"
+frame = 4
+frame_progress = 1.0
+
+[node name="DeadEffect" type="AnimatedSprite2D" parent="."]
+position = Vector2(20, -21)
+sprite_frames = SubResource("SpriteFrames_wvbyc")
+animation = &"DeadEffect"
+frame = 2
+frame_progress = 1.0
 
 [connection signal="timeout" from="TimerInvincible" to="." method="_on_timer_invincible_timeout"]
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
