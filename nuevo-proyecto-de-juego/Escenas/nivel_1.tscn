@@ -370,6 +370,7 @@ position = Vector2(1447, 236)
 position = Vector2(1835, 170)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="GoldLabel" type="Label" parent="CanvasLayer"]
 offset_right = 40.0
@@ -410,7 +411,7 @@ position = Vector2(2706, 539)
 scale = Vector2(0.5, 0.5)
 
 [node name="SpawnPoint" type="Node2D" parent="."]
-position = Vector2(1765, 158)
+position = Vector2(87, 201)
 
 [node name="PinchoGrande" parent="." instance=ExtResource("10_2xhbh")]
 position = Vector2(98, 733)
