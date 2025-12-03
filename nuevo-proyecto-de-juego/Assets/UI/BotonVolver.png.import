@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://chy4wy8yw0mrk"
-path="res://.godot/imported/BotonVolver.png-74a590f0267c2296b8edb6349df531fb.ctex"
+path="res://.godot/imported/BotonVolver.png-1ab646f174425a016e2cc1b603619492.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://BotonVolver.png"
-dest_files=["res://.godot/imported/BotonVolver.png-74a590f0267c2296b8edb6349df531fb.ctex"]
+source_file="res://Assets/UI/BotonVolver.png"
+dest_files=["res://.godot/imported/BotonVolver.png-1ab646f174425a016e2cc1b603619492.ctex"]
 
 [params]
 

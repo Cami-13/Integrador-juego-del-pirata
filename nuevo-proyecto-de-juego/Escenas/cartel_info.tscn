@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://vgfwhhgo80mg"]
 
-[ext_resource type="PackedScene" uid="uid://bcu02iy551d3y" path="res://pruebas_paralax.tscn" id="2_nug5f"]
-[ext_resource type="Script" uid="uid://bqlhjrneiv2k0" path="res://canvas_layer.gd" id="3_46ife"]
-[ext_resource type="Texture2D" uid="uid://brtpm1yu8luvc" path="res://Cartel_info.png" id="3_ko0ax"]
+[ext_resource type="PackedScene" uid="uid://bcu02iy551d3y" path="res://Objetos/pruebas_paralax.tscn" id="2_nug5f"]
+[ext_resource type="Script" uid="uid://bqlhjrneiv2k0" path="res://Scripts/canvas_layer.gd" id="3_46ife"]
+[ext_resource type="Texture2D" uid="uid://brtpm1yu8luvc" path="res://Assets/UI/Cartel_info.png" id="3_ko0ax"]
 
 [node name="CartelInfo" type="Node2D"]
 position = Vector2(250, 144)

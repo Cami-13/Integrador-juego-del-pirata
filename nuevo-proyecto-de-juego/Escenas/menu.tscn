@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://d3psnln77qx4d"]
 
-[ext_resource type="PackedScene" uid="uid://bcu02iy551d3y" path="res://pruebas_paralax.tscn" id="1_ouk20"]
-[ext_resource type="Script" uid="uid://dsmp0ccp7wr24" path="res://control.gd" id="2_4hy44"]
-[ext_resource type="Texture2D" uid="uid://b2agxvf4h5sl4" path="res://menu1.png" id="2_mae5d"]
+[ext_resource type="PackedScene" uid="uid://bcu02iy551d3y" path="res://Objetos/pruebas_paralax.tscn" id="1_ouk20"]
+[ext_resource type="Script" uid="uid://dsmp0ccp7wr24" path="res://Scripts/control.gd" id="2_4hy44"]
+[ext_resource type="Texture2D" uid="uid://b2agxvf4h5sl4" path="res://Assets/UI/menu1.png" id="2_mae5d"]
 
 [node name="Menu" type="Node2D"]
 position = Vector2(393, 261)

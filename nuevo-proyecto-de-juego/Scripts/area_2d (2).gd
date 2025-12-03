@@ -1,7 +1,7 @@
 extends Area2D
 
 @export var required_gold: int = 10
-@export var next_scene_path: String = "res://victoria.tscn"
+@export var next_scene_path: String = "res://Escenas/victoria.tscn"
 
 var triggered: bool = false
 

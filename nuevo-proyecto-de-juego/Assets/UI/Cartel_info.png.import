@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://brtpm1yu8luvc"
-path="res://.godot/imported/Cartel_info.png-b670a543838227c61e8530db6163ae3d.ctex"
+path="res://.godot/imported/Cartel_info.png-60b4b41b7ecc41df076c2d65715dd4a1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Cartel_info.png"
-dest_files=["res://.godot/imported/Cartel_info.png-b670a543838227c61e8530db6163ae3d.ctex"]
+source_file="res://Assets/UI/Cartel_info.png"
+dest_files=["res://.godot/imported/Cartel_info.png-60b4b41b7ecc41df076c2d65715dd4a1.ctex"]
 
 [params]
 

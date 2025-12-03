@@ -1,7 +1,7 @@
 extends CanvasLayer  # Nodo raíz del menú
 
 # Precargamos la escena del juego
-@onready var escena_juego = preload("res://cartel_info.tscn")  # Cambia la ruta a tu escena real
+@onready var escena_juego = preload("res://Escenas/cartel_info.tscn")  # Cambia la ruta a tu escena real
 
 # Referencias a los botones
 @onready var boton_jugar = $Jugar
